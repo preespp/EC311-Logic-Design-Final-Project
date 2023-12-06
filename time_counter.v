@@ -21,8 +21,8 @@
 
 
 module time_counter(
-    input clk,
-    input start,
+    input wire clk,
+    input wire start,
     output [4:0] time_display,
     output time_signal
     );
