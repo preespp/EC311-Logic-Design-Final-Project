@@ -22,17 +22,17 @@
 
 module game_logic(
     input  wire clk,        // clock (50MHz)
+    input  wire pause,
     input  wire [7:0] tap,  // 8 switch hit input
 
     input  wire start,        // button - start (original code is clr)
     input  wire [3:0]  difficulty,       // difficulty of easy medium hard
-    output wire [7:0] holes,   // holes that have moles pop up
-    output wire [11:0] score  
+    output [7:0] holes,   // holes that have moles pop up
+    output [11:0] score  
     );
 
     reg  [31:0] clk_cnt;    // clock count
     reg  clk_19;            // clock at 2^19 (100Hz)
-    reg pse = 0;            // our project doesn't have pause button therefore, we set this signal as 0
     reg  pse_flg;           // pause flag
     wire cout0;             // carry signal
 
@@ -53,7 +53,7 @@ module game_logic(
 
 
     // handle pause for clk_19
-    always @ (posedge pse) begin
+    always @ (posedge pause) begin
         pse_flg = ~pse_flg;
     end
 

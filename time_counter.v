@@ -24,11 +24,11 @@ module time_counter(
     input wire clk,
     input wire start,
     output [4:0] time_display,
-    output time_signal
+    output reg pause
     );
     
-  reg [4:0] count = 0;
   integer i;
+  reg count=0;
   
   Clock_divider clock_divider(
     clk,      // 100 MHz clock
@@ -37,14 +37,19 @@ module time_counter(
     
   always @(posedge clk) begin
     if (start) begin
+      pause = 0;
       count= 5'b11110;      // Reset count to 30 sec
-      for (i=0; i < 30; i=i+1) begin
-        repeat (1) @ (negedge time_signal);
-        count = count - 1;
+        end
+    if (count == 0) begin
+       pause = 1;
     end
   end
-  end
   
+  always @(posedge time_signal) begin
+        if (count > 0) begin
+        count = count - 1;
+        end
+  end
 assign time_display = count;
   
 endmodule

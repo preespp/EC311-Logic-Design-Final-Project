@@ -26,13 +26,13 @@ module time_tb(
     reg clk;
     reg start;
     wire [4:0] time_display;
-    wire time_signal;
+    wire pause;
     
   time_counter testtime (
     .clk(clk),
     .start(start),
     .time_display(time_display),
-    .time_signal(time_signal)
+    .pause(pause)
 ); 
   
   
@@ -46,7 +46,7 @@ initial begin
         #1 start = 1;
         #1 start = 0;
         #8000 start = 1;
-        #8001 start = 0;
+        #2 start = 0;
     end
   
 endmodule
