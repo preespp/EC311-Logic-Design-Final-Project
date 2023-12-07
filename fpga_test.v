@@ -39,7 +39,6 @@ module fpga_test(
     reg  [31:0] clk_cnt;    // clock count
     wire clk_16;            // clock at 2^16 (800Hz)
     reg  clk_19;            // clock at 2^19 (100Hz)
-    reg  pse_flg;           // pause flag
     wire cout0;             // carry signal
 
     wire [3:0]  difficulty;       // easy medium hard
@@ -56,13 +55,9 @@ module fpga_test(
 
     assign clk_16 = clk_cnt[15];
 
-    // handle pause for clk_19
-    always @ (posedge pause) begin
-        pse_flg = ~pse_flg;
-    end
 
     always @ (posedge clk) begin
-        if (!pse_flg)
+        if (!pause)
             clk_19 = clk_cnt[19];
     end
     // use difficulty control on board instead of input from mouse

@@ -33,32 +33,31 @@ module game_logic(
 
     reg  [31:0] clk_cnt;    // clock count
     reg  clk_19;            // clock at 2^19 (100Hz)
-    reg  pse_flg;           // pause flag
     wire cout0;             // carry signal
-
-
-
 
     wire [7:0]  hit;        // 8 successful hit
 
     // handle clock
     always @(posedge clk) begin
-        // if(clr)          // DO NOT clear main clock as it is seed of randomizer
-        //     clk_cnt = 0;
-        // else begin
+        if(start) begin      // DO NOT clear main clock as it is seed of randomizer
+             clk_cnt = 0;
+        end
+        else begin
         clk_cnt = clk_cnt + 1;
-        if(clk_cnt[31:28]>15)
+        if(clk_cnt[31:28]>15) begin
             clk_cnt = 0;
     end
+end
+end
 
 
-    // handle pause for clk_19
-    always @ (posedge pause) begin
-        pse_flg = ~pse_flg;
-    end
+//clk_19 handle
+// we found out that our time counter code will conflict with pse_flag of the original code
+// our pause signal will flip it everytime we start new rounds which makes our game playable only for 1st,3th,5th time we press the start button
+//therefore, we delete pse_flag and replaceit with pause signal directly
 
     always @ (posedge clk) begin
-        if (!pse_flg)
+        if (!pause)
             clk_19 = clk_cnt[19];
     end
 
