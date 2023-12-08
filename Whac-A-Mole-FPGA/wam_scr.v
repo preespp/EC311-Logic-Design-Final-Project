@@ -18,7 +18,7 @@ module wam_cnt(             // 1-bit 0-to-9 counter
             begin
                 if (num < 9)
                     begin
-                        num <= num + 1;
+                        num <= num + 3; // we change it to 3 points
                         cout <= 0;
                     end
                 else

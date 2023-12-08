@@ -29,8 +29,8 @@ module Top_Module_FPGA_Testing(
     input wire [7:0] sw,
     output [7:0] an,
     output [6:0] a2g,
-    output [7:0] ld
-    //output music_play
+    output [7:0] ld,
+    output music_play
     );
     
     // register variables
@@ -44,7 +44,7 @@ module Top_Module_FPGA_Testing(
     //all modules
     
     time_counter time_30_sec(.clk(clk),.start(start),.time_display(time_display),.pause(pause));
-    // music music_background(.clk(clk),.music_play(music_play));
+    music music_background(.clk(clk),.sound(music_play));
     game_logic game(.clk(clk),.pause(pause),.tap(tap),.start(start),.difficulty(difficulty),.holes(holes),.score(score));
     fpga_test test(.clk(clk),.time_display(time_display),.start(start),.lft(lft),.rgt(rgt),.holes(holes),.score(score),.sw(sw),.an(an),.a2g(a2g),.ld(ld),.tap(tap));
     

@@ -23,30 +23,39 @@
 module Top_Module(
     input wire clk,
     input wire mouse,
-    output reg VGA_output,
+    output reg [3:0] VGA_R,
+    output reg [3:0] VGA_G,
+    output reg [3:0] VGA_B,
+    output reg VGA_HS,
+    output reg VGA_VS,
     output reg music_play
     );
     
     // register variables
     
-    wire [4:0] time_display;
     wire start;
     wire [9:0] x;
     wire [8:0] y;
     wire click;
     wire [7:0] tap;
-    wire [1:0] difficulty;
+    
+    reg [1:0] difficulty;
     wire [7:0] holes;
     wire [11:0] score;
+    wire [4:0] time_display;
     wire pause;
     wire [7:0] tap;
     
     //all modules
     
-   //mouse mouse_decoder(.mouse(mouse),.x(x),.y(y),.click(click));
-    time_counter time_30_sec(.clk(clk),.start(start),.time_display(time_display));
-    music music_background(.clk(clk),.music_play(music_play));
-  //vga vga_display(.x(x),.y(y),.click(click),.clk(clk),.holes(holes),.score(score),.tap(tap),.difficulty(difficulty),.start(start),.VGA_output(VGA_output));
-    game_logic game(.clk(clk),.tap(tap),.start(start),.difficulty(difficulty),.holes(holes),.score(score));
+    time_counter time_30_sec(.clk(clk),.start(start),.time_display(time_display),.pause(pause));
+    
+    music music_background(.clk(clk),.sound(music_play));
+    
+   //vga vga_display(.in_clk(clk),.reset(reset),.holes(holes),.VGA_R(VGA_R),.VGA_G(VGA_G),.VGA_B(VGA_B),.VGA_HS(VGA_HS),.VGA_VS(VGA_VS));
+  
+     //mouse mouse_decoder(.mouse(mouse),.x(x),.y(y),.click(click));
+  
+    game_logic game(.clk(clk),.pause(pause),.tap(tap),.start(start),.difficulty(difficulty),.holes(holes),.score(score));
     
 endmodule
