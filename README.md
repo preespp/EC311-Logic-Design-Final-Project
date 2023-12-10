@@ -47,7 +47,7 @@ The folder Whac-A-Mole-FPGA is created by nyLiao (https://github.com/nyLiao/Whac
 Game_logic.v: this module is modeled from wam_main.v. The main purpose is for connecting generator module(wam_gen.v), hit checker module (wam_hit), and score module (wam_scr).
 This module will receive input pause signal from time_counter module to check if the generator is stopped or not, start signal from time_counter to check if the game is restarted, the difficulty variable, and tap variable to check which holes are clicked. Then, it will output the holes variables for vga to display which holes are mole generated at a certain time and output score for vga to display.
 
-fpga_test.v
+fpga_test.v: this module contained difficulty module(since we control this by button when we test the game logic with time_counter on fpga board), tap module(we input this from switch on fpga), led and display modules (to output led and 7-segment on fpga board).
 
 Time_counter.v: this module is created for 30-sec timer. It will receive start signal to indicate the start. It will have count to slow down the clock frequency to exact 1 second in real life, but we also need pause signal to connect with the old code from myliao to indicate the generator to stop. However, our modules will be only able to play on 1st, 3rd, 5th time we click start because of latches happened on the posedge of pause signal in the original module; hence, to fix this, we add activate signal to get rid of this latch.
 It will output the time_display as an output along with pause signal for the generator module.
@@ -58,10 +58,10 @@ music.v: we played music background via buzzer by adding pac-man note we found o
 For FPGA Test modules
 1. We display time on 7-segment display; we have to change number of bits of an.
 2. We use pause signal along with timer countdown; we don't need pause button anymore
-3. We connect music background to output music, we connect
+3. We connect music background to output music, we connect game_logic with fpga_test to hook the input switch and button to check if the game logic works with the time_counter on FPGA or not.
 
 For Top Module
-1. 
+We connect time_counter, vga_display, mouse, music, and game_logic to display our final product.
 
 Testbench files
 For the simulation test, to correct the mistakes of logic.
