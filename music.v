@@ -351,7 +351,7 @@ endmodule
 module Clock_divider(
     input in_clk,      // 100 MHz clock
     output reg out_clk // 1 Hz clock
-    // one whole note 0.625 s which means the smallest note (8th) is 0.625/8 s
+    // one whole note 1 s which means the smallest note (8th) is 1/8 s
 );
 	
 	reg[32:0] count;
@@ -366,7 +366,7 @@ module Clock_divider(
 	begin
 	   count = count + 1;
 		// increment count by one (use blocking assignment)
-	   if (count == 2.5 * 5 * (10^7) / 32 )begin
+	   if (count == 5 * (10^7) / 8 )begin
 	       out_clk <= ~out_clk;
 	       count <= 0;
 	       end

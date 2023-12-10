@@ -32,7 +32,7 @@ module game_logic(
     );
 
     reg  [31:0] clk_cnt;    // clock count
-    reg  clk_19;            // clock at 2^19 (100Hz)
+    reg  clk_22;            // clock at 2^19 (100Hz)
     wire cout0;             // carry signal
 
     wire [7:0]  hit;        // 8 successful hit
@@ -50,6 +50,7 @@ module game_logic(
 end
 end
 
+// slow down the game to clk_22
 
 //clk_19 handle
 // we found out that our time counter code will conflict with pse_flag of the original code
@@ -58,14 +59,14 @@ end
 
     always @ (posedge clk) begin
         if (!pause)
-            clk_19 = clk_cnt[19];
+            clk_22 = clk_cnt[22];
     end
 
     // generate moles based on difficulty
-    wam_gen sub_gen( .clk_19(clk_19), .clr(start), .clk_cnt(clk_cnt), .hit(hit), .hrdn(difficulty), .holes(holes) );
+    wam_gen sub_gen( .clk_19(clk_22), .clr(start), .clk_cnt(clk_cnt), .hit(hit), .hrdn(difficulty), .holes(holes) );
 
     // check if the user hit them or not
-    wam_hit sub_hit( .clk_19(clk_19), .tap(tap), .holes(holes), .hit(hit));
+    wam_hit sub_hit( .clk_19(clk_22), .tap(tap), .holes(holes), .hit(hit));
 
     // handle score count
     wam_scr sub_scr( .clk(clk), .clr(start), .hit(hit), .num(score), .cout0(cout0) );

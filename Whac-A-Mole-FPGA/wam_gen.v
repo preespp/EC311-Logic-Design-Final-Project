@@ -48,9 +48,9 @@ module wam_gen (            // control lives of moles
     wam_par par( .hrdn(hrdn), .age(age), .rto(rto) );
 
     // make random number
-    wam_rdn rdn( .clk(clk_cnt[21]), .load(clr), .seed(~clk_cnt[7:0]), .num(rnum) );
+    wam_rdn rdn( .clk(clk_cnt[26]), .load(clr), .seed(~clk_cnt[9:2]), .num(rnum) ); // change from 21 to 26 to slow down the clock amd [7:0] t0 [9:2]
 
-    // 1-phrase stage machine
+    // 1-phrase state machine
     always @ ( posedge clk_19 or posedge clr ) begin
         if (clr) begin
             holes <= 8'b0;
@@ -88,7 +88,7 @@ module wam_gen (            // control lives of moles
                         end
                     end
                 end
-                j <= j + 1;
+                j <= j + 3; // change from 1 to 3 to make it more random rather than 0,1,2,3,4,5,6,7 to 0,3,6,1,4,7,2,5.
             end
         end
     end

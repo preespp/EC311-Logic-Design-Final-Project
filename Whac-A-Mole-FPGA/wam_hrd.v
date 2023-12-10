@@ -2,11 +2,44 @@
 //
 // by nyLiao, April, 2019
 
+module wam_par (            // decide hardness parameters 
+// we modified difficulty parameter
+    input wire [1:0] hrdn,
+    output reg [3:0] age,
+    output reg [7:0] rto
+    );
+
+// More age means more chance of appearing on the same spot (easier)
+// More rto means more number to pop up and more chance of reset before reaching age
+
+    always @ ( * ) begin
+        case (hrdn)
+            'h0: begin // default
+                age <= 4'd15;
+                rto <= 12;
+            end
+            'h1: begin
+                age <= 4'd09;
+                rto <= 68;
+            end
+            'h2: begin
+                age <= 4'd04;
+                rto <= 134;
+            end
+            'h3: begin   // default
+                age <= 4'd01;
+                rto <= 1000;
+            end
+        endcase
+    end
+endmodule // wam_par
+
+
 module wam_tch (            // input button
     input wire clk_19,
     input wire btn,
     output reg tch              // active high
-    );
+   );
 
     reg  btn_pre;               // button last status
     wire btn_edg;               // posedge trigger
@@ -25,7 +58,7 @@ module wam_tch (            // input button
             else begin
                 if (btn_edg) begin              // if button then back to idle
                     btn_cnt <= 0;
-                end
+               end
                 else begin                      // count
                     btn_cnt <= btn_cnt + 1;
                 end
@@ -38,13 +71,13 @@ module wam_tch (            // input button
             end
         end
     end
-endmodule // wam_tch
+ endmodule // wam_tch
 
-module wam_hrd (            // hardness control
+ module wam_hrd (            // hardness control
     input wire clk_19,
     input wire start,
     input wire lft,
-    input wire rgt,
+    input wire rgt,black,
     input wire cout0,
     output reg [1:0] hrdn          // hardness of 0~9 or H (hard) modify to easy medium hard
     );
@@ -54,7 +87,7 @@ module wam_hrd (            // hardness control
     wire cout0s;    // shorter carry signal
 
     wire harder;
-    wire easier;
+   wire easier;
 
     wam_tch tchl( .clk_19(clk_19), .btn(lft), .tch(lfts));
     wam_tch tchr( .clk_19(clk_19), .btn(rgt), .tch(rgts));
@@ -77,31 +110,3 @@ module wam_hrd (            // hardness control
         end
     end
 endmodule // wam_hrd
-
-module wam_par (            // decide hardness parameters
-    input wire [1:0] hrdn,
-    output reg [3:0] age,
-    output reg [7:0] rto
-    );
-
-    always @ ( * ) begin
-        case (hrdn)
-            'h0: begin // default
-                age <= 4'd14;
-                rto <= 42;
-            end
-            'h1: begin
-                age <= 4'd11;
-                rto <= 62;
-            end
-            'h2: begin
-                age <= 4'd09;
-                rto <= 76;
-            end
-            'h3: begin
-                age <= 4'd07;
-                rto <= 87;
-            end
-        endcase
-    end
-endmodule // wam_par
