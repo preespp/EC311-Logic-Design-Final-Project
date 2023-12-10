@@ -24,6 +24,8 @@ module vga(
     input in_clk,
     input reset,
     input [7:0] holes,    // Positions of all 8 holes
+    input wire [11:0] score,
+    input wire [4:0] time_display,
     output reg [3:0] VGA_R,
     output reg [3:0] VGA_G,
     output reg [3:0] VGA_B,
@@ -130,9 +132,91 @@ module vga(
                 mole8_x = 2000;
                 mole8_y = 2000;  
             end
-        end
+   end
+ reg [63:0] shape1mem [0:51];
+   always @(posedge in_clk) begin
+		if (reset) begin
+            shape1mem[0] = 64'b0000000000000000111111111111111111111111111111110000000000000000;
+            shape1mem[1] = 64'b0000000000000111000000000000000000000000000000001110000000000000;
+            shape1mem[2] = 64'b0000000000111000000000000000000000000000000000000001110000000000;
+            shape1mem[3] = 64'b0000000111000000000000000000000000000000000000000000001110000000;
+            shape1mem[4] = 64'b0000011100000000000000000000000000000000000000000000000011100000;
+            shape1mem[5] = 64'b0000111000000000000000000000000000000000000000000000000001110000;
+            shape1mem[6] = 64'b0001110000000000000000000000000000000000000000000000000000111000;
+            shape1mem[7] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[8] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[9] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[10] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[11] = 64'b0011100000111111000000000000000000000000000000001111110000011100;
+            shape1mem[12] = 64'b0011100000000011111100000000000000000000000011111100000000011100;
+            shape1mem[13] = 64'b0011100000000000000111110000000000000000111110000000000000011100;
+            shape1mem[14] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[15] = 64'b0011100000000000111111110000000000000000111111110000000000011100;
+            shape1mem[16] = 64'b0011100000000000000111110000000000000000111110000000000000011100;
+            shape1mem[17] = 64'b0011100000000000000111110000000000000000111110000000000000011100;
+            shape1mem[18] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[19] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[20] = 64'b0011100000000000000011111111111111111111111000000000000000011100;
+            shape1mem[21] = 64'b1111111100000000011100000000000000000000000111000000000011111111;
+            shape1mem[22] = 64'b0011100011111111110000000000000000000000000001111111111100011100;
+            shape1mem[23] = 64'b0011100000000011110000000001111111110000000011111000000000011100;
+            shape1mem[24] = 64'b0011100000000111001100000011111111111000000110011100000000011100;
+            shape1mem[25] = 64'b1111111111111111110000000001111111110000000000111111111111111111;
+            shape1mem[26] = 64'b0011100000001110000000000000011111000000000000001110000000011100;
+            shape1mem[27] = 64'b0011100000001111110000000000000000000000000001111110000000011100;
+            shape1mem[28] = 64'b0011100000111111000000000000000000000000000000011111100000011100;
+            shape1mem[29] = 64'b0011111110000011100000000000000000000000000000111000011111111100;
+            shape1mem[30] = 64'b1111100000000001110000000000000000000000000001110000000000011111;
+            shape1mem[31] = 64'b0011100000000000011100000000000000000000000111000000000000011100;
+            shape1mem[32] = 64'b0011100000000000000011111111111111111111111000000000000000011100;
+            shape1mem[33] = 64'b0011100000000000000000001100011011000110000000000000000000011100;
+            shape1mem[34] = 64'b0011100000000000000000001100011011000110000000000000000000011100;
+            shape1mem[35] = 64'b0011100000000000000000001100011011000110000000000000000000011100;
+            shape1mem[36] = 64'b0011100000000000000000000111110001111100000000000000000000011100;
+            shape1mem[37] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[38] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[39] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[40] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[41] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[42] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[43] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[44] = 64'b0011100000000000000000000000000000000000000000000000000000011100;
+            shape1mem[45] = 64'b0011100000000000000111111111111000000000000000000000000000011100;
+            shape1mem[46] = 64'b0011100000000000011111111111111111111111100000000000000000011100;
+            shape1mem[47] = 64'b0011100000000001111111111111111111111111111111111110000000011100;
+            shape1mem[48] = 64'b0011101111111111111111111111111111111111111111111111100011111100;	
+            shape1mem[49] = 64'b0011111111111111111111111111111111111111111111111111111111111100;
+            shape1mem[50] = 64'b0011111111111111111111111111111111111111111111111111111111111110;
+            shape1mem[51] = 64'b1111111111111111111111111111111111111111111111111111111111111111;
+		end
+	end
+    integer mole = 0;  
 
-
+    
+    reg [3:0] ones;
+    reg [3:0] tens;
+    reg [3:0] huns;
+    reg [3:0] time_ones;
+    reg [3:0] time_tens;
+    always @(*) begin
+    ones = score%10;
+    tens = ((score-ones)/10)%10;
+    huns = (score - (tens*10) - ones)/100;
+    time_ones = time_display%10;
+   time_tens = (time_display - time_ones)/10;
+    end
+    
+  wire [6:0] seg1;
+  wire [6:0] seg2; 
+  wire [6:0] seg3; 
+  wire [6:0] time1;
+  wire [6:0] time2;
+  sevensegdecoder SSD1(ones, seg1);
+  sevensegdecoder SSD2(tens, seg2); 
+  sevensegdecoder SSD3(huns, seg3); 
+  sevensegdecoder SSD4(time_ones, time1);
+  sevensegdecoder SSD5(time_tens, time2); 
+    
     /////////// BEGIN HORIZONTAL STATE MACHINE //////////////
     always @(posedge clock)
     begin
@@ -170,6 +254,7 @@ module vga(
                     VGA_R = 0;  
                     VGA_G = 0;  
                     VGA_B = 0; 
+                    mole = 0;
                     
                 // Display the top holes with a white color
                 if ((horizontal_position >= 100) && (horizontal_position < 175) && ((vertical_position >= 100) && (vertical_position < 110))) begin
@@ -223,46 +308,318 @@ module vga(
                 end
  
                 // Display the mole at the selected hole with a different color
-                 if ((horizontal_position >= mole1_x + 7) && (horizontal_position < mole1_x + 67) && (vertical_position >= mole1_y - 60) && (vertical_position < mole1_y)) begin
-                         VGA_R <= 5;  // Set the red component for the mole
-                         VGA_G <= 0;  // Set the green component for the mole
-                         VGA_B <= 5;  // Set the blue component for the mole
+                 if ((horizontal_position >= mole1_x + 5 ) && (horizontal_position < mole1_x + 69) && (vertical_position >= mole1_y - 52) && (vertical_position < mole1_y)) begin
+                         VGA_R <= (shape1mem[vertical_position - (mole1_y - 52)][horizontal_position - (mole1_x + 5)]) * (135 / 15);
+                         VGA_G <= (shape1mem[vertical_position - (mole1_y - 52)][horizontal_position - (mole1_x + 5)]) * (90 / 15);
+                         VGA_B <= (shape1mem[vertical_position - (mole1_y - 52)][horizontal_position - (mole1_x + 5)]) * (30 / 15);
+                         mole <= 1;
                  end
-                 if ((horizontal_position >= mole2_x + 7) && (horizontal_position < mole2_x + 67) && (vertical_position >= mole2_y - 60) && (vertical_position < mole2_y)) begin
-                         VGA_R <= 15;  // Set the red component for the mole
-                         VGA_G <= 0;  // Set the green component for the mole
-                         VGA_B <= 15;  // Set the blue component for the mole
+                 if ((horizontal_position >= mole2_x + 5 ) && (horizontal_position < mole2_x + 69) && (vertical_position >= mole2_y - 52) && (vertical_position < mole2_y)) begin
+                         VGA_R <= (shape1mem[vertical_position - (mole2_y - 52)][horizontal_position - (mole2_x + 5)]) * (150 / 15);
+                         VGA_G <= (shape1mem[vertical_position - (mole2_y - 52)][horizontal_position - (mole2_x + 5)]) * (105 / 15);
+                         VGA_B <= (shape1mem[vertical_position - (mole2_y - 52)][horizontal_position - (mole2_x + 5)]) * (60 / 15);
                  end
-                 if ((horizontal_position >= mole3_x + 7) && (horizontal_position < mole3_x + 67) && (vertical_position >= mole3_y - 60) && (vertical_position < mole3_y)) begin
-                         VGA_R <= 0;  // Set the red component for the mole
-                         VGA_G <= 1;  // Set the green component for the mole
-                         VGA_B <= 2;  // Set the blue component for the mole
+                 if ((horizontal_position >= mole3_x + 5 ) && (horizontal_position < mole3_x + 69) && (vertical_position >= mole3_y - 52) && (vertical_position < mole3_y)) begin
+                         VGA_R <= (shape1mem[vertical_position - (mole3_y - 52)][horizontal_position - (mole3_x + 5)]) * (105 / 15);
+                         VGA_G <= (shape1mem[vertical_position - (mole3_y - 52)][horizontal_position - (mole3_x + 5)]) * (75 / 15);
+                         VGA_B <= (shape1mem[vertical_position - (mole3_y - 52)][horizontal_position - (mole3_x + 5)]) * (60 / 15);
                  end
-                 if ((horizontal_position >= mole4_x + 7) && (horizontal_position < mole4_x + 67) && (vertical_position >= mole4_y - 60) && (vertical_position < mole4_y)) begin
-                         VGA_R <= 0;  // Set the red component for the mole
-                         VGA_G <= 0;  // Set the green component for the mole
-                         VGA_B <= 5;  // Set the blue component for the mole
+                 if ((horizontal_position >= mole4_x + 5 ) && (horizontal_position < mole4_x + 69) && (vertical_position >= mole4_y - 52) && (vertical_position < mole4_y)) begin
+                         VGA_R <= (shape1mem[vertical_position - (mole4_y - 52)][horizontal_position - (mole4_x + 5)]) * (120 / 15);
+                         VGA_G <= (shape1mem[vertical_position - (mole4_y - 52)][horizontal_position - (mole4_x + 5)]) * (90 / 15);
+                         VGA_B <= (shape1mem[vertical_position - (mole4_y - 52)][horizontal_position - (mole4_x + 5)]) * (75 / 15);
                  end
-                 if ((horizontal_position >= mole5_x + 7) && (horizontal_position < mole5_x + 67) && (vertical_position >= mole5_y - 60) && (vertical_position < mole5_y)) begin
-                         VGA_R <= 3;  // Set the red component for the mole
-                         VGA_G <= 0;  // Set the green component for the mole
-                         VGA_B <= 1;  // Set the blue component for the mole
+                 if ((horizontal_position >= mole5_x + 5 ) && (horizontal_position < mole5_x + 69) && (vertical_position >= mole5_y - 52) && (vertical_position < mole5_y)) begin
+                         VGA_R <= (shape1mem[vertical_position - (mole5_y - 52)][horizontal_position - (mole5_x + 5)]) * (105 / 15);
+                         VGA_G <= (shape1mem[vertical_position - (mole5_y - 52)][horizontal_position - (mole5_x + 5)]) * (90 / 15);
+                         VGA_B <= (shape1mem[vertical_position - (mole5_y - 52)][horizontal_position - (mole5_x + 5)]) * (45 / 15);
                  end
-                 if ((horizontal_position >= mole6_x + 7) && (horizontal_position < mole6_x + 67) && (vertical_position >= mole6_y - 60) && (vertical_position < mole6_y)) begin
-                         VGA_R <= 1;  // Set the red component for the mole
-                         VGA_G <= 4;  // Set the green component for the mole
-                         VGA_B <= 0;  // Set the blue component for the mole
+                 if ((horizontal_position >= mole6_x + 5 ) && (horizontal_position < mole6_x + 69) && (vertical_position >= mole6_y - 52) && (vertical_position < mole6_y)) begin
+                         VGA_R <= (shape1mem[vertical_position - (mole6_y - 52)][horizontal_position - (mole6_x +5)]) * (120 / 15);
+                         VGA_G <= (shape1mem[vertical_position - (mole6_y - 52)][horizontal_position - (mole6_x +5)]) * (60 / 15);
+                         VGA_B <= (shape1mem[vertical_position - (mole6_y - 52)][horizontal_position - (mole6_x +5)]) * (30 / 15);
                  end
-                   if ((horizontal_position >= mole7_x + 7) && (horizontal_position < mole7_x + 67) && (vertical_position >= mole7_y - 60) && (vertical_position < mole7_y)) begin
-                         VGA_R <= 5;  // Set the red component for the mole
-                         VGA_G <= 0;  // Set the green component for the mole
-                         VGA_B <= 0;  // Set the blue component for the mole
+                 if ((horizontal_position >= mole7_x + 5 ) && (horizontal_position < mole7_x + 69) && (vertical_position >= mole7_y - 52) && (vertical_position < mole7_y)) begin
+                         VGA_R <= (shape1mem[vertical_position - (mole7_y - 52)][horizontal_position - (mole7_x + 5)]) * (135 / 15);
+                         VGA_G <= (shape1mem[vertical_position - (mole7_y - 52)][horizontal_position - (mole7_x + 5)]) * (75 / 15);
+                         VGA_B <= (shape1mem[vertical_position - (mole7_y - 52)][horizontal_position - (mole7_x + 5)]) * (30 / 15);
                  end
-                   if ((horizontal_position >= mole8_x + 7) && (horizontal_position < mole8_x + 67) && (vertical_position >= mole8_y - 60) && (vertical_position < mole8_y)) begin
-                         VGA_R <= 0;  // Set the red component for the mole
-                         VGA_G <= 2;  // Set the green component for the mole
-                         VGA_B <= 5;  // Set the blue component for the mole
+                 if ((horizontal_position >= mole8_x + 5) && (horizontal_position < mole8_x + 69) && (vertical_position >= mole8_y - 52) && (vertical_position < mole8_y)) begin
+                         VGA_R <= (shape1mem[vertical_position - (mole8_y - 52)][horizontal_position - (mole8_x + 5)]) * (120 / 15);
+                         VGA_G <= (shape1mem[vertical_position - (mole8_y - 52)][horizontal_position - (mole8_x + 5)]) * (75 / 15);
+                         VGA_B <= (shape1mem[vertical_position - (mole8_y - 52)][horizontal_position - (mole8_x + 5)]) * (30 / 15);
                  end
+                 
+                  //Display Score in the ones digit
+                 if (horizontal_position >= 600 && horizontal_position < 610 && ((vertical_position >= 13) && (vertical_position < 15))) begin
+                        VGA_R <= seg1[6] ? 15 : 0;
+                        VGA_G <= seg1[6] ? 15 : 0;
+                        VGA_B <= seg1[6] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 610 && horizontal_position < 612 && ((vertical_position >= 15) && (vertical_position < 25))) begin
+                        VGA_R <= seg1[5] ? 15 : 0;
+                        VGA_G <= seg1[5] ? 15 : 0;
+                        VGA_B <= seg1[5] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 610 && horizontal_position < 612 && ((vertical_position >= 27) && (vertical_position < 37))) begin
+                        VGA_R <= seg1[4] ? 15 : 0;
+                        VGA_G <= seg1[4] ? 15 : 0;
+                        VGA_B <= seg1[4] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 600 && horizontal_position < 610 && ((vertical_position >= 37) && (vertical_position < 39))) begin
+                        VGA_R <= seg1[3] ? 15 : 0;
+                        VGA_G <= seg1[3] ? 15 : 0;
+                        VGA_B <= seg1[3] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 598 && horizontal_position < 600 && ((vertical_position >= 27) && (vertical_position < 37))) begin
+                        VGA_R <= seg1[2] ? 15 : 0;
+                        VGA_G <= seg1[2] ? 15 : 0;
+                        VGA_B <= seg1[2] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 598 && horizontal_position < 600 && ((vertical_position >= 15) && (vertical_position < 25))) begin
+                        VGA_R <= seg1[1] ? 15 : 0;
+                        VGA_G <= seg1[1] ? 15 : 0;
+                        VGA_B <= seg1[1] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 600 && horizontal_position < 610 && ((vertical_position >= 25) && (vertical_position < 27))) begin
+                        VGA_R <= seg1[0] ? 15 : 0;
+                        VGA_G <= seg1[0] ? 15 : 0;
+                        VGA_B <= seg1[0] ? 15 : 0;
+                 end
+                 
+                  //Display Score in the tens digit
+                 if (horizontal_position >= 585 && horizontal_position < 595 && ((vertical_position >= 13) && (vertical_position < 15))) begin
+                        VGA_R <= seg2[6] ? 15 : 0;
+                        VGA_G <= seg2[6] ? 15 : 0;
+                        VGA_B <= seg2[6] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 595 && horizontal_position < 597 && ((vertical_position >= 15) && (vertical_position < 25))) begin
+                        VGA_R <= seg2[5] ? 15 : 0;
+                        VGA_G <= seg2[5] ? 15 : 0;
+                        VGA_B <= seg2[5] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 595 && horizontal_position < 597 && ((vertical_position >= 27) && (vertical_position < 37))) begin
+                        VGA_R <= seg2[4] ? 15 : 0;
+                        VGA_G <= seg2[4] ? 15 : 0;
+                        VGA_B <= seg2[4] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 585 && horizontal_position < 595 && ((vertical_position >= 37) && (vertical_position < 39))) begin
+                        VGA_R <= seg2[3] ? 15 : 0;
+                        VGA_G <= seg2[3] ? 15 : 0;
+                        VGA_B <= seg2[3] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 583 && horizontal_position < 585 && ((vertical_position >= 27) && (vertical_position < 37))) begin
+                        VGA_R <= seg2[2] ? 15 : 0;
+                        VGA_G <= seg2[2] ? 15 : 0;
+                        VGA_B <= seg2[2] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 583 && horizontal_position < 585 && ((vertical_position >= 15) && (vertical_position < 25))) begin
+                        VGA_R <= seg2[1] ? 15 : 0;
+                        VGA_G <= seg2[1] ? 15 : 0;
+                        VGA_B <= seg2[1] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 585 && horizontal_position < 595 && ((vertical_position >= 25) && (vertical_position < 27))) begin
+                        VGA_R <= seg2[0] ? 15 : 0;
+                        VGA_G <= seg2[0] ? 15 : 0;
+                        VGA_B <= seg2[0] ? 15 : 0;
+                 end
+                 
+                 //Display Score in the hundreds digit 
+                 if (horizontal_position >= 570 && horizontal_position < 580 && ((vertical_position >= 13) && (vertical_position < 15))) begin
+                        VGA_R <= seg3[6] ? 15 : 0;
+                        VGA_G <= seg3[6] ? 15 : 0;
+                        VGA_B <= seg3[6] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 580 && horizontal_position < 582 && ((vertical_position >= 15) && (vertical_position < 25))) begin
+                        VGA_R <= seg3[5] ? 15 : 0;
+                        VGA_G <= seg3[5] ? 15 : 0;
+                        VGA_B <= seg3[5] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 580 && horizontal_position < 582 && ((vertical_position >= 27) && (vertical_position < 37))) begin
+                        VGA_R <= seg3[4] ? 15 : 0;
+                        VGA_G <= seg3[4] ? 15 : 0;
+                        VGA_B <= seg3[4] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 570 && horizontal_position < 580 && ((vertical_position >= 37) && (vertical_position < 39))) begin
+                        VGA_R <= seg3[3] ? 15 : 0;
+                        VGA_G <= seg3[3] ? 15 : 0;
+                        VGA_B <= seg3[3] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 568 && horizontal_position < 570 && ((vertical_position >= 27) && (vertical_position < 37))) begin
+                        VGA_R <= seg3[2] ? 15 : 0;
+                        VGA_G <= seg3[2] ? 15 : 0;
+                        VGA_B <= seg3[2] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 568 && horizontal_position < 570 && ((vertical_position >= 15) && (vertical_position < 25))) begin
+                        VGA_R <= seg3[1] ? 15 : 0;
+                        VGA_G <= seg3[1] ? 15 : 0;
+                        VGA_B <= seg3[1] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 570 && horizontal_position < 580 && ((vertical_position >= 25) && (vertical_position < 27))) begin
+                        VGA_R <= seg3[0] ? 15 : 0;
+                        VGA_G <= seg3[0] ? 15 : 0;
+                        VGA_B <= seg3[0] ? 15 : 0;
+                 end
+
+                 //Display time in the rightmost digit
+                 if (horizontal_position >= 80 && horizontal_position < 90 && ((vertical_position >= 13) && (vertical_position < 15))) begin
+                        VGA_R <= time1[6] ? 15 : 0;
+                        VGA_G <= time1[6] ? 15 : 0;
+                        VGA_B <= time1[6] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 90 && horizontal_position < 92 && ((vertical_position >= 15) && (vertical_position < 25))) begin
+                        VGA_R <= time1[5] ? 15 : 0;
+                        VGA_G <= time1[5] ? 15 : 0;
+                        VGA_B <= time1[5] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 90 && horizontal_position < 92 && ((vertical_position >= 27) && (vertical_position < 37))) begin
+                        VGA_R <= time1[4] ? 15 : 0;
+                        VGA_G <= time1[4] ? 15 : 0;
+                        VGA_B <= time1[4] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 80 && horizontal_position < 90 && ((vertical_position >= 37) && (vertical_position < 39))) begin
+                        VGA_R <= time1[3] ? 15 : 0;
+                        VGA_G <= time1[3] ? 15 : 0;
+                        VGA_B <= time1[3] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 78 && horizontal_position < 80 && ((vertical_position >= 27) && (vertical_position < 37))) begin
+                        VGA_R <= time1[2] ? 15 : 0;
+                        VGA_G <= time1[2] ? 15 : 0;
+                        VGA_B <= time1[2] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 78 && horizontal_position < 80 && ((vertical_position >= 15) && (vertical_position < 25))) begin
+                        VGA_R <= time1[1] ? 15 : 0;
+                        VGA_G <= time1[1] ? 15 : 0;
+                        VGA_B <= time1[1] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 80 && horizontal_position < 90 && ((vertical_position >= 25) && (vertical_position < 27))) begin
+                        VGA_R <= time1[0] ? 15 : 0;
+                        VGA_G <= time1[0] ? 15 : 0;
+                        VGA_B <= time1[0] ? 15 : 0;
+                 end
+                 
+                 //Display time in the second rightmost digit
+                 if (horizontal_position >= 65 && horizontal_position < 75 && ((vertical_position >= 13) && (vertical_position < 15))) begin
+                        VGA_R <= time2[6] ? 15 : 0;
+                        VGA_G <= time2[6] ? 15 : 0;
+                        VGA_B <= time2[6] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 75 && horizontal_position < 77 && ((vertical_position >= 15) && (vertical_position < 25))) begin
+                        VGA_R <= time2[5] ? 15 : 0;
+                        VGA_G <= time2[5] ? 15 : 0;
+                        VGA_B <= time2[5] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 75 && horizontal_position < 77 && ((vertical_position >= 27) && (vertical_position < 37))) begin
+                        VGA_R <= time2[4] ? 15 : 0;
+                        VGA_G <= time2[4] ? 15 : 0;
+                        VGA_B <= time2[4] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 65 && horizontal_position < 75 && ((vertical_position >= 37) && (vertical_position < 39))) begin
+                        VGA_R <= time2[3] ? 15 : 0;
+                        VGA_G <= time2[3] ? 15 : 0;
+                        VGA_B <= time2[3] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 63 && horizontal_position < 65 && ((vertical_position >= 27) && (vertical_position < 37))) begin
+                        VGA_R <= time2[2] ? 15 : 0;
+                        VGA_G <= time2[2] ? 15 : 0;
+                        VGA_B <= time2[2] ? 15 : 0;
+                  end
+                 if (horizontal_position >= 63 && horizontal_position < 65 && ((vertical_position >= 15) && (vertical_position < 25))) begin
+                        VGA_R <= time2[1] ? 15 : 0;
+                        VGA_G <= time2[1] ? 15 : 0;
+                        VGA_B <= time2[1] ? 15 : 0;
+                 end
+                 if (horizontal_position >= 65 && horizontal_position < 75 && ((vertical_position >= 25) && (vertical_position < 27))) begin
+                        VGA_R <= time2[0] ? 15 : 0;
+                        VGA_G <= time2[0] ? 15 : 0;
+                        VGA_B <= time2[0] ? 15 : 0;
+                 end
+                 
+                    //Display the two dots between minute and second
+                 if (horizontal_position >= 59 && horizontal_position < 61 && ((vertical_position >= 19) && (vertical_position < 21))) begin
+                    VGA_R <= 15;  
+                    VGA_G <= 15;  
+                    VGA_B <= 15;  
+                  end
+                  if (horizontal_position >= 59 && horizontal_position < 61 && ((vertical_position >= 31) && (vertical_position < 33))) begin
+                    VGA_R <= 15;  
+                    VGA_G <= 15;  
+                    VGA_B <= 15;  
+                  end
+                  
+                  //Display time in the second lefttmost digit
+                 if (horizontal_position >= 45 && horizontal_position < 55 && ((vertical_position >= 13) && (vertical_position < 15))) begin
+                    VGA_R <= 15;  
+                    VGA_G <= 15;  
+                    VGA_B <= 15;  
+                  end
+                 if (horizontal_position >= 55 && horizontal_position < 57 && ((vertical_position >= 15) && (vertical_position < 25))) begin
+                    VGA_R <= 15;  
+                    VGA_G <= 15;  
+                    VGA_B <= 15;  
+                 end
+                 if (horizontal_position >= 55 && horizontal_position < 57 && ((vertical_position >= 27) && (vertical_position < 37))) begin
+                    VGA_R <= 15;  
+                    VGA_G <= 15;  
+                    VGA_B <= 15;  
+                  end
+                 if (horizontal_position >= 45 && horizontal_position < 55 && ((vertical_position >= 37) && (vertical_position < 39))) begin
+                    VGA_R <= 15;  
+                    VGA_G <= 15;  
+                    VGA_B <= 15;  
+                 end
+                 if (horizontal_position >= 43 && horizontal_position < 45 && ((vertical_position >= 27) && (vertical_position < 37))) begin
+                    VGA_R <= 15;  
+                    VGA_G <= 15;  
+                    VGA_B <= 15;  
+                  end
+                 if (horizontal_position >= 43 && horizontal_position < 45 && ((vertical_position >= 15) && (vertical_position < 25))) begin
+                    VGA_R <= 15;  
+                    VGA_G <= 15;  
+                    VGA_B <= 15;  
+                 end
+                 if (horizontal_position >= 45 && horizontal_position < 55 && ((vertical_position >= 25) && (vertical_position < 27))) begin
+                    VGA_R <= 0;  
+                    VGA_G <= 0;  
+                    VGA_B <= 0;  
+                 end
+                 
+                 //Display time in the lefttmost digit
+                 if (horizontal_position >= 30 && horizontal_position < 40 && ((vertical_position >= 13) && (vertical_position < 15))) begin
+                    VGA_R <= 15;  
+                    VGA_G <= 15;  
+                    VGA_B <= 15;  
+                  end
+                 if (horizontal_position >= 40 && horizontal_position < 42 && ((vertical_position >= 15) && (vertical_position < 25))) begin
+                    VGA_R <= 15;  
+                    VGA_G <= 15;  
+                    VGA_B <= 15;  
+                 end
+                 if (horizontal_position >= 40 && horizontal_position < 42 && ((vertical_position >= 27) && (vertical_position < 37))) begin
+                    VGA_R <= 15;  
+                    VGA_G <= 15;  
+                    VGA_B <= 15;  
+                  end
+                 if (horizontal_position >= 30 && horizontal_position < 40 && ((vertical_position >= 37) && (vertical_position < 39))) begin
+                    VGA_R <= 15;  
+                    VGA_G <= 15;  
+                    VGA_B <= 15;  
+                 end
+                 if (horizontal_position >= 28 && horizontal_position < 30 && ((vertical_position >= 27) && (vertical_position < 37))) begin
+                    VGA_R <= 15;  
+                    VGA_G <= 15;  
+                    VGA_B <= 15;  
+                  end
+                 if (horizontal_position >= 28 && horizontal_position < 30 && ((vertical_position >= 15) && (vertical_position < 25))) begin
+                    VGA_R <= 15;  
+                    VGA_G <= 15;  
+                    VGA_B <= 15;  
+                 end
+                 if (horizontal_position >= 30 && horizontal_position < 40 && ((vertical_position >= 25) && (vertical_position < 27))) begin
+                    VGA_R <= 0;  
+                    VGA_G <= 0;  
+                    VGA_B <= 0;  
+                 end 
                 end
                 else
                 begin
@@ -300,7 +657,7 @@ module vga(
     end
    
     /////////// BEGIN VERTICAL STATE MACHINE //////////////
-    always @(posedge vertical_trigger)
+ always @(posedge vertical_trigger)
     begin
         if (vertical_state == 0)
         begin
