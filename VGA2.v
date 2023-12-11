@@ -74,7 +74,7 @@ module VGA2(
     assign x = horizontal_position;
     
     
-    
+    // top corner P (210,220) Y lower corner (340,260)
     lettermap2 P(.x(x),.y(y),.xstart(xstart1),.ystart(240-(wheight/2)),.ID(ID0),.value(outP),.lwidth(wwidth),.lheight(wheight));
     lettermap2 L1(.x(x),.y(y),.xstart(xstart1+ wwidth +10),.ystart(240-(wheight/2)),.ID(ID1),.value(outLA),.lwidth(wwidth),.lheight(wheight));
     lettermap2 A1(.x(x),.y(y),.xstart(xstart1 + 2*wwidth +10),.ystart(240-(wheight/2)),.ID(ID2),.value(outAA),.lwidth(wwidth),.lheight(wheight));
@@ -86,6 +86,7 @@ module VGA2(
     lettermap2 E2(.x(x),.y(y),.xstart(xstart2 + 3*wwidth),.ystart(360-(wheight/2)),.ID(ID7),.value(outEB),.lwidth(wwidth),.lheight(wheight));
     lettermap2 L3(.x(x),.y(y),.xstart(xstart2 + 4*wwidth),.ystart(360-(wheight/2)),.ID(ID8),.value(outLC),.lwidth(wwidth),.lheight(wheight));
     
+    //corner coordinate for 1 area: (226,340) and (266,380) 2 area: (356,340) and (396,380) 3 area: (436,340) and (476,380)
     lettermap2 one(.x(x),.y(y),.xstart(xstart2  + 6*wwidth),.ystart(360-(wheight/2)),.ID(ID9),.value(outone),.lwidth(wwidth),.lheight(wheight));
     lettermap2 two(.x(x),.y(y),.xstart(xstart2 + 8*wwidth),.ystart(360-(wheight/2)),.ID(ID10),.value(outtwo),.lwidth(wwidth),.lheight(wheight));
     lettermap2 three(.x(x),.y(y),.xstart(xstart2 + 10*wwidth),.ystart(360-(wheight/2)),.ID(ID11),.value(outthree),.lwidth(wwidth),.lheight(wheight));

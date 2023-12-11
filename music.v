@@ -34,7 +34,7 @@ reg [5:0] next_state;
 
 initial next_state = 0;
 
-Clock_divider faster(clk,fasterclk);
+sound_Clock_divider faster(clk,fasterclk);
 
 // FSM for song 
 // Pacman
@@ -348,7 +348,7 @@ assign sound_invert = ~sound;
 endmodule
 
 
-module Clock_divider(
+module sound_Clock_divider(
     input in_clk,      // 100 MHz clock
     output reg out_clk // 1 Hz clock
     // one whole note 1 s which means the smallest note (8th) is 1/8 s

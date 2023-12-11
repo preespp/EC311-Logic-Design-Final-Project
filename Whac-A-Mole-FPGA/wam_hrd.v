@@ -14,21 +14,17 @@ module wam_par (            // decide hardness parameters
 
     always @ ( * ) begin
         case (hrdn)
-            'h0: begin // default
-                age <= 4'd15;
-                rto <= 12;
-            end
             'h1: begin
                 age <= 4'd09;
-                rto <= 68;
+                rto <= 120;
             end
             'h2: begin
-                age <= 4'd04;
-                rto <= 134;
+                age <= 4'd06;
+                rto <= 200;
             end
             'h3: begin   // default
-                age <= 4'd01;
-                rto <= 1000;
+                age <= 4'd03;
+                rto <= 255;
             end
         endcase
     end

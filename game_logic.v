@@ -26,7 +26,7 @@ module game_logic(
     input  wire [7:0] tap,  // 8 switch hit input
 
     input  wire start,        // button - start (original code is clr)
-    input  wire [3:0]  difficulty,       // difficulty of easy medium hard
+    input  wire [1:0]  difficulty,       // difficulty of easy medium hard
     output [7:0] holes,   // holes that have moles pop up
     output [11:0] score  
     );
