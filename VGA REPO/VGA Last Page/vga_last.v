@@ -59,15 +59,31 @@ module vga_last(
 
     end
 
+    // change score to 3*score
+ //   reg [11:0] realscore;    
+    
+//    reg [3:0] ones1;
+ //   reg [3:0] tens1;
+//    reg [3:0] huns1;
     reg [3:0] ones;
     reg [3:0] tens;
     reg [3:0] huns;
     
     always @(*) begin
-    ones = score%10;
-    tens = ((score-ones)/10)%10;
-    huns = (score - (tens*10) - ones)/100;
+    ones = score % 10;
+    tens = ((score - ones)/10) % 10;
+    huns = (score - 10*tens - ones)/100 ;
     end
+ // always @(*) begin
+   // ones1 = score[3:0];
+   // tens1 = score[7:4];
+   // huns1 = score[11:8];
+   // realscore = (100*huns + 10*tens + ones) * 3; // we change from 1 point per hit to 3 points per hit
+   // ones = realscore % 10;
+   // tens = ((realscore - ones)/10) % 10;
+   // huns = (realscore - 10*tens - ones)/100 ;
+//    end
+
 
  
   wire [6:0] seg1;
