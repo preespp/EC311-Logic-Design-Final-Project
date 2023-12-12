@@ -192,18 +192,20 @@ module vga(
 	end
     integer mole = 0;  
 
-    
+
+// convert BCD score to binary score
+	
     reg [3:0] ones;
     reg [3:0] tens;
     reg [3:0] huns;
     reg [3:0] time_ones;
     reg [3:0] time_tens;
     always @(*) begin
-    ones = score%10;
-    tens = ((score-ones)/10)%10;
-    huns = (score - (tens*10) - ones)/100;
+    ones = score[3:0];
+    tens = score[7:4];
+    huns = score[11:8];
     time_ones = time_display%10;
-   time_tens = (time_display - time_ones)/10;
+    time_tens = (time_display - time_ones)/10;
     end
     
   wire [6:0] seg1;
