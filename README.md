@@ -1,6 +1,6 @@
 # EC311-Logic-Design-Final-Project
 
-Project Name: Whack-a-mole game with VGA display, Mouse Input and Time limit
+Project Name: Whack-a-mole game with VGA display, Mouse Input, Time limit and three difficulty levels. 
 
 This repository dedicated to Final Project for EC311 Introduction to Logic Design Fall 2023 Boston University taught by professor Douglas Densmore.
 
@@ -53,6 +53,11 @@ Time_counter.v: this module is created for 30-sec timer. It will receive start s
 It will output the time_display as an output along with pause signal for the generator module.
 
 music.v: we played music background via buzzer by adding pac-man note we found on musescore. We adjust the clock and write FSM to generate each note in each state with the counter in each state to determine the different range of each note. Lastly, we add the condition to play sound at each state of FSM.
+
+VGA2.v : This is the top module for the first screen of the game. The over all functionality of this module is to assign RGB colours to the title of the game i.e "WHAC-A-MOLE", "PLAY" and "LEVEL : 1 2 3", which all togther makes up the first state of our state machine aswell. 
+
+lettermap2.v : This is a harcode mofule for all the segments that make up a letter displayed on our VGA. Each segment is passed through an if condition which has parammeters of the extreme x and y co-ordinates of pixel positions. Moreover, each segement 
+of a letter is summed up together (using OR gates) to actually make a letter. In the same way different letters of a word are summed up to make one word. By making different cases for each letter, we passed those cases to out VGA2.v module and later assigned colour those pixels. 
 
 
 For FPGA Test modules
