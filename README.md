@@ -38,7 +38,7 @@ The folder Whac-A-Mole-FPGA is created by nyLiao (https://github.com/nyLiao/Whac
 2. We don't use wam.ucf (the constraint file for their version and fpga board)
 3. We don't use wam_main but we use it as a prototype for our own module.
 4. We don't use wam_m.bit (their bitstream file from wam_main)
-5. We use the same algorithm and logic from wam_scr.v (containing wam_scr and wam_cnt modules for detecting the player's score)
+5. We use the same algorithm and logic from wam_scr.v (containing wam_scr and wam_cnt modules for detecting the player's score). We modify output from BCD to binary and we change 1 point per hit to 3 points per hit.
 6. We keep wam_hrd.v (containing wam_tch, wam_hrd and wam_par for sending the value of parameter for each difficulty)
 7. We use the same wam_hit.v (containing wam_tap.v and wam_hit.v to check if the player hits the mole or not)
 8. We use the same generator (wam_gen.v) but we will change the clock frequency input to slow down the mole speed in our top module.
