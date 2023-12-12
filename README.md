@@ -54,9 +54,9 @@ It will output the time_display as an output along with pause signal for the gen
 
 music.v: we played music background via buzzer by adding pac-man note we found on musescore. We adjust the clock and write FSM to generate each note in each state with the counter in each state to determine the different range of each note. Lastly, we add the condition to play sound at each state of FSM.
 
-VGA2.v : This is the top module for the first screen of the game. The over all functionality of this module is to assign RGB colours to the title of the game i.e "WHAC-A-MOLE", "PLAY" and "LEVEL : 1 2 3", which all togther makes up the first state of our state machine aswell. 
+VGA2.v : This is the top module for the first screen of the game. The overall functionality of this module is to assign RGB colours to the title of the game i.e "WHAC-A-MOLE", "PLAY" and "LEVEL : 1 2 3", which all togther makes up the first state of our state machine aswell. 
 
-lettermap2.v : This is a harcode mofule for all the segments that make up a letter displayed on our VGA. Each segment is passed through an if condition which has parammeters of the extreme x and y co-ordinates of pixel positions. Moreover, each segement 
+lettermap2.v : This is a hardcode module for all the segments that make up a letter displayed on our VGA. Each segment is passed through an if condition which has parammeters of the extreme x and y co-ordinates of pixel positions. Moreover, each segment 
 of a letter is summed up together (using OR gates) to actually make a letter. In the same way different letters of a word are summed up to make one word. By making different cases for each letter, we passed those cases to out VGA2.v module and later assigned colour those pixels. 
 
 
@@ -66,10 +66,8 @@ For FPGA Test modules
 3. We connect music background to output music, we connect game_logic with fpga_test to hook the input switch and button to check if the game logic works with the time_counter on FPGA or not.
 
 For Top Module
-We connect time_counter, vga_display, mouse, music, and game_logic to display our final product.
+We connect time_counter, all the vga_display, mouse, music, and game_logic to display our final product.
 
 Testbench files
 For the simulation test, to correct the mistakes of logic.
-
-Schematic (Updated Block Diagram from presentation)
 
