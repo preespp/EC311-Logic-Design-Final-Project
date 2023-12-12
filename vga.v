@@ -203,7 +203,7 @@ module vga(
     tens = ((score-ones)/10)%10;
     huns = (score - (tens*10) - ones)/100;
     time_ones = time_display%10;
-    time_tens = (time_display - time_ones)/10;
+   time_tens = (time_display - time_ones)/10;
     end
     
   wire [6:0] seg1;
