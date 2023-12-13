@@ -54,11 +54,16 @@ It will output the time_display as an output along with pause signal for the gen
 
 music.v: we played music background via buzzer by adding pac-man note we found on musescore. We adjust the clock and write FSM to generate each note in each state with the counter in each state to determine the different range of each note. Lastly, we add the condition to play sound at each state of FSM.
 
-VGA2.v : This is the top module for the first screen of the game. The overall functionality of this module is to assign RGB colours to the title of the game i.e "WHAC-A-MOLE", "PLAY" and "LEVEL : 1 2 3", which all togther makes up the first state of our state machine aswell. 
+VGA2.v : This is the top module for the first screen of the game. The overall functionality of this module is to assign RGB colours to the title of the game i.e "WHAC-A-MOLE", "PLAY" and "LEVEL : 1 2 3", which all together makes up the first state of our state machine as well. 
+
+vga.v : This module is to display moles randomly generated in the eight holes on the game screen as well as the time remaining and the score.  This module works by assigning the horizontal and vertical positions to display colors via the RGB output ports. It will also be include in the FSM as the second state.
+
+vga_last.v : This module is for the last screen of the game that will be finalizing the player score after the turn is finished and displaying on the screen. There will be a restart button in this screen that will bring the player back to the first screen in order to play again. This screen will be the third state of our FSM.
 
 lettermap2.v : This is a hardcode module for all the segments that make up a letter displayed on our VGA. Each segment is passed through an if condition which has parammeters of the extreme x and y co-ordinates of pixel positions. Moreover, each segment 
 of a letter is summed up together (using OR gates) to actually make a letter. In the same way different letters of a word are summed up to make one word. By making different cases for each letter, we passed those cases to out VGA2.v module and later assigned colour those pixels. 
 
+Clock_divider.v : 
 
 For FPGA Test modules
 1. We display time on 7-segment display; we have to change number of bits of an.
