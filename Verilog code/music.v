@@ -28,7 +28,7 @@ wire fasterclk;
 wire clk_400;
 wire valid;
 wire [21:0] tone;
-reg [3:0] count;
+reg [3:0] count = 0;
 
 reg [5:0] next_state;
 
@@ -278,38 +278,38 @@ always @(posedge fasterclk) begin
 end
 
 // frequency for each note
-reg [9:0] B4 = 493;
-reg [9:0] B5 = 987;
-reg [9:0] FS5 = 739;
-reg [9:0] DS5 = 622;
-reg [9:0] C5 = 523;
-reg [10:0] C6 = 1047;
-reg [10:0] G6 = 1568;
-reg [10:0] E6 = 1279;
-reg [9:0] E5 = 659;
-reg [9:0] F5 = 698;
-reg [9:0] G5 = 784;
-reg [9:0] GS5 = 830;
-reg [9:0] A5 = 880;
+reg [21:0] B4 = 493*500;
+reg [21:0] B5 = 987*500;
+reg [21:0] FS5 = 739*500;
+reg [21:0] DS5 = 622*500;
+reg [21:0] C5 = 523*500;
+reg [21:0] C6 = 1047*500;
+reg [21:0] G6 = 1568*500;
+reg [21:0] E6 = 1279*500;
+reg [21:0] E5 = 659*500;
+reg [21:0] F5 = 698*500;
+reg [21:0] G5 = 784*500;
+reg [21:0] GS5 = 830*500;
+reg [21:0] A5 = 880*500;
 
 // Output to tone
 assign tone = (next_state==0 || next_state==14) ? B4 :
-              (next_state==1 || next_state==4 || next_state==15 || next_state==18 || next_state==30) ? B5 :             
-              (next_state==2 || next_state==5 || next_state==16 || next_state==19 || next_state==25) ? FS5 :                                
-              (next_state==3 || next_state==6 || next_state==17 || next_state==20 || next_state==21) ? DS5 :                                            
-              (next_state==7) ? C5 :
-              (next_state==8 || next_state==11) ? C6 :
-              (next_state==9 || next_state==12 ) ? G6 :
-              (next_state==13) ? E6 :
-              (next_state==22 ) ? E5 :
-              (next_state==23 || next_state==24 ) ? F5 :
-              (next_state==26 || next_state==27 ) ? G5 :
-              (next_state==28 ) ? GS5 :                                                             
-              (next_state==29) ? A5 : 0;                              
+              ((next_state==1 || next_state==4 || next_state==15 || next_state==18 || next_state==30) ? B5 :             
+              ((next_state==2 || next_state==5 || next_state==16 || next_state==19 || next_state==25) ? FS5 :                                
+              ((next_state==3 || next_state==6 || next_state==17 || next_state==20 || next_state==21) ? DS5 :                                            
+              ((next_state==7) ? C5 :
+              ((next_state==8 || next_state==11) ? C6 :
+              ((next_state==9 || next_state==12 ) ? G6 :
+              ((next_state==13) ? E6 :
+              ((next_state==22 ) ? E5 :
+              ((next_state==23 || next_state==24 ) ? F5 :
+              ((next_state==26 || next_state==27 ) ? G5 :
+              ((next_state==28 ) ? GS5 :                                                             
+              ((next_state==29) ? A5 : 0))))))))))));                              
 
 // Frequency Divider
 sound_generator random(
-  .clk(fasterclk),
+  .clk(clk),
   .counter(tone),
   .sound(sound)
 );
@@ -338,7 +338,7 @@ always@(posedge clk) begin
     else
     begin
         sound <= sound_next;
- 
+        num <= num +1;
     end
 end
 
@@ -366,7 +366,7 @@ module sound_Clock_divider(
 	begin
 	   count = count + 1;
 		// increment count by one (use blocking assignment)
-	   if (count == 5 * (10^7) / 8 )begin
+	   if (count == 5 * (10^7)/32)begin
 	       out_clk <= ~out_clk;
 	       count <= 0;
 	       end
