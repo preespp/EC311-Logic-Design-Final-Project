@@ -12,7 +12,7 @@ Group Members:
 
 2.Rawisara Chairat Computer Engineering class of 2026
 
-3.Arnav Pratap Chaudhry Computer Engineering class of 2026
+3.Arnav Pratap Chaudhry Computer Science & Computer Engineering class of 2026
 
 4.Vansh Bhatia Electrical Engineering class of 2025
 
