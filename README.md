@@ -63,7 +63,7 @@ vga_last.v : This module is for the last screen of the game that will be finaliz
 lettermap2.v : This is a hardcode module for all the segments that make up a letter displayed on our VGA. Each segment is passed through an if condition which has parammeters of the extreme x and y co-ordinates of pixel positions. Moreover, each segment 
 of a letter is summed up together (using OR gates) to actually make a letter. In the same way different letters of a word are summed up to make one word. By making different cases for each letter, we passed those cases to out VGA2.v module and later assigned colour those pixels. 
 
-Clock_divider.v : 
+Clock_divider.v : This module is useful to divide or reduce the frequency of the clock by half.
 
 For FPGA Test modules
 1. We display time on 7-segment display; we have to change number of bits of an.
