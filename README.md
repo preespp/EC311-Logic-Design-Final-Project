@@ -16,7 +16,7 @@ Group Members:
 
 4.Vansh Bhatia Electrical Engineering class of 2025
 
-Demo Video : Yout Tube link - https://youtu.be/yzb8oHsqHA0?si=yaM2_a-NMcsSZnEt
+Demo Video : Yout Tube link - https://youtu.be/xJwtOaYMmew?si=ZioFx-ER5Zgv4R0E
 
 How to run our code:
 1. Import all the verilog code modules into Vivado 2019.1
