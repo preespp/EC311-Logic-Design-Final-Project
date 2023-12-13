@@ -102,7 +102,7 @@ module vga_last(
 		if(reset) begin
 			mouse_x_q<=0;
 			mouse_y_q<=0;
-			mouse_color_q<=2;
+			mouse_color_q<=3;
 	end
 		else begin
 			mouse_x_q<=mouse_x_d;
@@ -128,13 +128,13 @@ module vga_last(
 			     restart = 0;
 			end
 			if (btn[0]) begin
-			     if (mouse_x_q <= 370 && mouse_x_q >= 279 && mouse_y_q <= 400 && mouse_y_q >= 382) begin
+			     if (mouse_x_q <= 360 && mouse_x_q >= 269 && mouse_y_q <= 370 && mouse_y_q >= 350) begin
 			         restart = 1;
 			     end
 			     end
 			     
-			//if(btn[1]) mouse_color_d=mouse_color_q+1;//right click to change color(increment)
-			//else if(btn[0]) mouse_color_d=mouse_color_q-1;//left click to change color(decrement)
+			if(btn[1]) mouse_color_d=mouse_color_q+1;//right click to change color(increment)
+			else if(btn[0]) mouse_color_d=mouse_color_q-1;//left click to change color(decrement)
 		end
 			 end
 	 
@@ -357,106 +357,100 @@ always @* begin
                     VGA_B = 0;
 
                   // Display the word "final score"
-                  if ((horizontal_position >= 240 ) && (horizontal_position < 248) && (vertical_position >= 160) && (vertical_position < 168)) begin
-                         VGA_R <= (final_score_pixels_F[vertical_position - 160][horizontal_position - 240]) * (135 / 15);
-                         VGA_G <= (final_score_pixels_F[vertical_position - 160][horizontal_position - 240]) * (135 / 15);
-                         VGA_B <= (final_score_pixels_F[vertical_position - 160][horizontal_position - 240]) * (135 / 15);
+                  if ((horizontal_position >= 230 ) && (horizontal_position < 238) && (vertical_position >= 130) && (vertical_position < 138)) begin
+                         VGA_R <= (final_score_pixels_F[vertical_position - 130][horizontal_position - 230]) * (135 / 15);
+                         VGA_G <= (final_score_pixels_F[vertical_position - 130][horizontal_position - 230]) * (135 / 15);
+                         VGA_B <= (final_score_pixels_F[vertical_position - 130][horizontal_position - 230]) * (135 / 15);
                  end
-                  if ((horizontal_position >= 256 ) && (horizontal_position < 264) && (vertical_position >= 160) && (vertical_position < 168)) begin
-                         VGA_R <= (final_score_pixels_I[vertical_position - 160][horizontal_position - 256]) * (135 / 15);
-                         VGA_G <= (final_score_pixels_I[vertical_position - 160][horizontal_position - 256]) * (135 / 15);
-                         VGA_B <= (final_score_pixels_I[vertical_position - 160][horizontal_position - 256]) * (135 / 15);
+                  if ((horizontal_position >= 246 ) && (horizontal_position < 254) && (vertical_position >= 130) && (vertical_position < 138)) begin
+                         VGA_R <= (final_score_pixels_I[vertical_position - 130][horizontal_position - 246]) * (135 / 15);
+                         VGA_G <= (final_score_pixels_I[vertical_position - 130][horizontal_position - 246]) * (135 / 15);
+                         VGA_B <= (final_score_pixels_I[vertical_position - 130][horizontal_position - 246]) * (135 / 15);
                  end
-                  if ((horizontal_position >= 272 ) && (horizontal_position < 280) && (vertical_position >= 160) && (vertical_position < 168)) begin
-                         VGA_R <= (final_score_pixels_N[vertical_position - 160][horizontal_position - 272]) * (135 / 15);
-                         VGA_G <= (final_score_pixels_N[vertical_position - 160][horizontal_position - 272]) * (135 / 15);
-                         VGA_B <= (final_score_pixels_N[vertical_position - 160][horizontal_position - 272]) * (135 / 15);
+                  if ((horizontal_position >= 262 ) && (horizontal_position < 270) && (vertical_position >= 130) && (vertical_position < 138)) begin
+                         VGA_R <= (final_score_pixels_N[vertical_position - 130][horizontal_position - 262]) * (135 / 15);
+                         VGA_G <= (final_score_pixels_N[vertical_position - 130][horizontal_position - 262]) * (135 / 15);
+                         VGA_B <= (final_score_pixels_N[vertical_position - 130][horizontal_position - 262]) * (135 / 15);
                  end
-                  if ((horizontal_position >= 288 ) && (horizontal_position < 296) && (vertical_position >= 160) && (vertical_position < 168)) begin
-                         VGA_R <= (final_score_pixels_A[vertical_position - 160][horizontal_position - 288]) * (135 / 15);
-                         VGA_G <= (final_score_pixels_A[vertical_position - 160][horizontal_position - 288]) * (135 / 15);
-                         VGA_B <= (final_score_pixels_A[vertical_position - 160][horizontal_position - 288]) * (135 / 15);
+                  if ((horizontal_position >= 278 ) && (horizontal_position < 286) && (vertical_position >= 130) && (vertical_position < 138)) begin
+                         VGA_R <= (final_score_pixels_A[vertical_position - 130][horizontal_position - 278]) * (135 / 15);
+                         VGA_G <= (final_score_pixels_A[vertical_position - 130][horizontal_position - 278]) * (135 / 15);
+                         VGA_B <= (final_score_pixels_A[vertical_position - 130][horizontal_position - 278]) * (135 / 15);
                  end
-                  if ((horizontal_position >= 304 ) && (horizontal_position < 312) && (vertical_position >= 160) && (vertical_position < 168)) begin
-                         VGA_R <= (final_score_pixels_L[vertical_position - 160][horizontal_position - 304]) * (135 / 15);
-                         VGA_G <= (final_score_pixels_L[vertical_position - 160][horizontal_position - 304]) * (135 / 15);
-                         VGA_B <= (final_score_pixels_L[vertical_position - 160][horizontal_position - 304]) * (135 / 15);
+                  if ((horizontal_position >= 294 ) && (horizontal_position < 302) && (vertical_position >= 130) && (vertical_position < 138)) begin
+                         VGA_R <= (final_score_pixels_L[vertical_position - 130][horizontal_position - 294]) * (135 / 15);
+                         VGA_G <= (final_score_pixels_L[vertical_position - 130][horizontal_position - 294]) * (135 / 15);
+                         VGA_B <= (final_score_pixels_L[vertical_position - 130][horizontal_position - 294]) * (135 / 15);
                  end
                  
                  
-                 if ((horizontal_position >= 328 ) && (horizontal_position < 336) && (vertical_position >= 160) && (vertical_position < 168)) begin
-                         VGA_R <= (final_score_pixels_S[vertical_position - 160][horizontal_position - 328]) * (135 / 15);
-                         VGA_G <= (final_score_pixels_S[vertical_position - 160][horizontal_position - 328]) * (135 / 15);
-                         VGA_B <= (final_score_pixels_S[vertical_position - 160][horizontal_position - 328]) * (135 / 15);
+                 if ((horizontal_position >= 318 ) && (horizontal_position < 326) && (vertical_position >= 130) && (vertical_position < 138)) begin
+                         VGA_R <= (final_score_pixels_S[vertical_position - 130][horizontal_position - 318]) * (135 / 15);
+                         VGA_G <= (final_score_pixels_S[vertical_position - 130][horizontal_position - 318]) * (135 / 15);
+                         VGA_B <= (final_score_pixels_S[vertical_position - 130][horizontal_position - 318]) * (135 / 15);
                  end
-                  if ((horizontal_position >= 344 ) && (horizontal_position < 352) && (vertical_position >= 160) && (vertical_position < 168)) begin
-                         VGA_R <= (final_score_pixels_C[vertical_position - 160][horizontal_position - 344]) * (135 / 15);
-                         VGA_G <= (final_score_pixels_C[vertical_position - 160][horizontal_position - 344]) * (135 / 15);
-                         VGA_B <= (final_score_pixels_C[vertical_position - 160][horizontal_position - 344]) * (135 / 15);
+                  if ((horizontal_position >= 334 ) && (horizontal_position < 342) && (vertical_position >= 130) && (vertical_position < 138)) begin
+                         VGA_R <= (final_score_pixels_C[vertical_position - 130][horizontal_position - 334]) * (135 / 15);
+                         VGA_G <= (final_score_pixels_C[vertical_position - 130][horizontal_position - 334]) * (135 / 15);
+                         VGA_B <= (final_score_pixels_C[vertical_position - 130][horizontal_position - 334]) * (135 / 15);
                  end
-                  if ((horizontal_position >= 360 ) && (horizontal_position < 368) && (vertical_position >= 160) && (vertical_position < 168)) begin
-                         VGA_R <= (final_score_pixels_O[vertical_position - 160][horizontal_position - 360]) * (135 / 15);
-                         VGA_G <= (final_score_pixels_O[vertical_position - 160][horizontal_position - 360]) * (135 / 15);
-                         VGA_B <= (final_score_pixels_O[vertical_position - 160][horizontal_position - 360]) * (135 / 15);
+                  if ((horizontal_position >= 350 ) && (horizontal_position < 358) && (vertical_position >= 130) && (vertical_position < 138)) begin
+                         VGA_R <= (final_score_pixels_O[vertical_position - 130][horizontal_position - 350]) * (135 / 15);
+                         VGA_G <= (final_score_pixels_O[vertical_position - 130][horizontal_position - 350]) * (135 / 15);
+                         VGA_B <= (final_score_pixels_O[vertical_position - 130][horizontal_position - 350]) * (135 / 15);
                  end
-                  if ((horizontal_position >= 376 ) && (horizontal_position < 384) && (vertical_position >= 160) && (vertical_position < 168)) begin
-                         VGA_R <= (final_score_pixels_R[vertical_position - 160][horizontal_position - 376]) * (135 / 15);
-                         VGA_G <= (final_score_pixels_R[vertical_position - 160][horizontal_position - 376]) * (135 / 15);
-                         VGA_B <= (final_score_pixels_R[vertical_position - 160][horizontal_position - 376]) * (135 / 15);
+                  if ((horizontal_position >= 366 ) && (horizontal_position < 374) && (vertical_position >= 130) && (vertical_position < 138)) begin
+                         VGA_R <= (final_score_pixels_R[vertical_position - 130][horizontal_position - 366]) * (135 / 15);
+                         VGA_G <= (final_score_pixels_R[vertical_position - 130][horizontal_position - 366]) * (135 / 15);
+                         VGA_B <= (final_score_pixels_R[vertical_position - 130][horizontal_position - 366]) * (135 / 15);
                  end
-                  if ((horizontal_position >= 392 ) && (horizontal_position < 400) && (vertical_position >= 160) && (vertical_position < 168)) begin
-                         VGA_R <= (final_score_pixels_E[vertical_position - 160][horizontal_position - 392]) * (135 / 15);
-                         VGA_G <= (final_score_pixels_E[vertical_position - 160][horizontal_position - 392]) * (135 / 15);
-                         VGA_B <= (final_score_pixels_E[vertical_position - 160][horizontal_position - 392]) * (135 / 15);
+                  if ((horizontal_position >= 382 ) && (horizontal_position < 390) && (vertical_position >= 130) && (vertical_position < 138)) begin
+                         VGA_R <= (final_score_pixels_E[vertical_position - 130][horizontal_position - 382]) * (135 / 15);
+                         VGA_G <= (final_score_pixels_E[vertical_position - 130][horizontal_position - 382]) * (135 / 15);
+                         VGA_B <= (final_score_pixels_E[vertical_position - 130][horizontal_position - 382]) * (135 / 15);
                  end
+                 
                  //Display Score in the ones digit
 
-                 if (horizontal_position >= 370 && horizontal_position < 420 && ((vertical_position >= 215) && (vertical_position < 225))) begin
-                        VGA_R <= seg1[6] ? 15 : 0;
-                        VGA_G <= seg1[6] ? 15 : 0;
-                        VGA_B <= seg1[6] ? 15 : 0;
-                  end
-                 //Display Score in the ones digit
-
-                 if (horizontal_position >= 370 && horizontal_position < 420 && ((vertical_position >= 215) && (vertical_position < 225))) begin
+                 if (horizontal_position >= 360 && horizontal_position < 410 && ((vertical_position >= 185) && (vertical_position < 195))) begin
                         VGA_R <= seg1[6] ? 15 : 0;
                         VGA_G <= seg1[6] ? 15 : 0;
                         VGA_B <= seg1[6] ? 15 : 0;
                   end
 
                   
-                 if (horizontal_position >= 420 && horizontal_position < 430 && ((vertical_position >= 225) && (vertical_position < 275))) begin
+                 if (horizontal_position >= 410 && horizontal_position < 420 && ((vertical_position >= 195) && (vertical_position < 245))) begin
                         VGA_R <= seg1[5] ? 15 : 0;
                         VGA_G <= seg1[5] ? 15 : 0;
                         VGA_B <= seg1[5] ? 15 : 0;
                  end
 
-                 if (horizontal_position >= 420 && horizontal_position < 430 && ((vertical_position >= 285) && (vertical_position < 335))) begin
+                 if (horizontal_position >= 410 && horizontal_position < 420 && ((vertical_position >= 255) && (vertical_position < 305))) begin
                         VGA_R <= seg1[4] ? 15 : 0;
                         VGA_G <= seg1[4] ? 15 : 0;
                         VGA_B <= seg1[4] ? 15 : 0;
                   end
 
-                 if (horizontal_position >= 370 && horizontal_position < 420 && ((vertical_position >= 335) && (vertical_position < 345))) begin
+                 if (horizontal_position >= 360 && horizontal_position < 410 && ((vertical_position >= 305) && (vertical_position < 315))) begin
                         VGA_R <= seg1[3] ? 15 : 0;
                         VGA_G <= seg1[3] ? 15 : 0;
                         VGA_B <= seg1[3] ? 15 : 0;
                  end
 
-                 if (horizontal_position >= 360 && horizontal_position < 370 && ((vertical_position >= 285) && (vertical_position < 335))) begin
+                 if (horizontal_position >= 350 && horizontal_position < 360 && ((vertical_position >= 255) && (vertical_position < 305))) begin
                         VGA_R <= seg1[2] ? 15 : 0;
                         VGA_G <= seg1[2] ? 15 : 0;
                         VGA_B <= seg1[2] ? 15 : 0;
                   end
 
-                 if (horizontal_position >= 360 && horizontal_position < 370 && ((vertical_position >= 225) && (vertical_position < 275))) begin
+                 if (horizontal_position >= 350 && horizontal_position < 360 && ((vertical_position >= 195) && (vertical_position < 245))) begin
                         VGA_R <= seg1[1] ? 15 : 0;
                         VGA_G <= seg1[1] ? 15 : 0;
                         VGA_B <= seg1[1] ? 15 : 0;
 
                  end
 
-                 if (horizontal_position >= 370 && horizontal_position < 420 && ((vertical_position >= 275) && (vertical_position < 285))) begin
+                 if (horizontal_position >= 360 && horizontal_position < 410 && ((vertical_position >= 245) && (vertical_position < 255))) begin
                         VGA_R <= seg1[0] ? 15 : 0;
                         VGA_G <= seg1[0] ? 15 : 0;
                         VGA_B <= seg1[0] ? 15 : 0;
@@ -466,43 +460,43 @@ always @* begin
 
                   //Display Score in the tens digit
 
-                 if (horizontal_position >= 295 && horizontal_position < 345 && ((vertical_position >= 215) && (vertical_position < 225))) begin
+                 if (horizontal_position >= 285 && horizontal_position < 335 && ((vertical_position >= 185) && (vertical_position < 195))) begin
                         VGA_R <= seg2[6] ? 15 : 0;
                         VGA_G <= seg2[6] ? 15 : 0;
                         VGA_B <= seg2[6] ? 15 : 0;
                   end
 
-                 if (horizontal_position >= 345 && horizontal_position < 355 && ((vertical_position >= 225) && (vertical_position < 275))) begin
+                 if (horizontal_position >= 335 && horizontal_position < 345 && ((vertical_position >= 195) && (vertical_position < 245))) begin
                         VGA_R <= seg2[5] ? 15 : 0;
                         VGA_G <= seg2[5] ? 15 : 0;
                         VGA_B <= seg2[5] ? 15 : 0;
                  end
 
-                 if (horizontal_position >= 345 && horizontal_position < 355 && ((vertical_position >= 285) && (vertical_position < 335))) begin
+                 if (horizontal_position >= 335 && horizontal_position < 345 && ((vertical_position >= 255) && (vertical_position < 305))) begin
                         VGA_R <= seg2[4] ? 15 : 0;
                         VGA_G <= seg2[4] ? 15 : 0;
                         VGA_B <= seg2[4] ? 15 : 0;
                   end
 
-                 if (horizontal_position >= 295 && horizontal_position < 345 && ((vertical_position >= 335) && (vertical_position < 345))) begin
+                 if (horizontal_position >= 285 && horizontal_position < 335 && ((vertical_position >= 305) && (vertical_position < 315))) begin
                         VGA_R <= seg2[3] ? 15 : 0;
                         VGA_G <= seg2[3] ? 15 : 0;
                         VGA_B <= seg2[3] ? 15 : 0;
                  end
 
-                 if (horizontal_position >= 285 && horizontal_position < 295 && ((vertical_position >= 285) && (vertical_position < 335))) begin
+                 if (horizontal_position >= 275 && horizontal_position < 285 && ((vertical_position >= 255) && (vertical_position < 305))) begin
                         VGA_R <= seg2[2] ? 15 : 0;
                         VGA_G <= seg2[2] ? 15 : 0;
                         VGA_B <= seg2[2] ? 15 : 0;
                   end
 
-                 if (horizontal_position >= 285 && horizontal_position < 295 && ((vertical_position >= 225) && (vertical_position < 275))) begin
+                 if (horizontal_position >= 275 && horizontal_position < 285 && ((vertical_position >= 195) && (vertical_position < 245))) begin
                         VGA_R <= seg2[1] ? 15 : 0;
                         VGA_G <= seg2[1] ? 15 : 0;
                         VGA_B <= seg2[1] ? 15 : 0;
                  end
 
-                 if (horizontal_position >= 295 && horizontal_position < 345 && ((vertical_position >= 275) && (vertical_position < 285))) begin
+                 if (horizontal_position >= 285 && horizontal_position < 335 && ((vertical_position >= 245) && (vertical_position < 255))) begin
                         VGA_R <= seg2[0] ? 15 : 0;
                         VGA_G <= seg2[0] ? 15 : 0;
                         VGA_B <= seg2[0] ? 15 : 0;
@@ -511,43 +505,43 @@ always @* begin
                  
 
                  //Display Score in the hundreds digit
-                 if (horizontal_position >= 220 && horizontal_position < 270 && ((vertical_position >= 215) && (vertical_position < 225))) begin
+                 if (horizontal_position >= 210 && horizontal_position < 260 && ((vertical_position >= 185) && (vertical_position < 195))) begin
                         VGA_R <= seg3[6] ? 15 : 0;
                         VGA_G <= seg3[6] ? 15 : 0;
                         VGA_B <= seg3[6] ? 15 : 0;
                   end
                   
-                 if (horizontal_position >= 270 && horizontal_position < 280 && ((vertical_position >= 225) && (vertical_position < 275))) begin
+                 if (horizontal_position >= 260 && horizontal_position < 270 && ((vertical_position >= 195) && (vertical_position < 245))) begin
                         VGA_R <= seg3[5] ? 15 : 0;
                         VGA_G <= seg3[5] ? 15 : 0;
                         VGA_B <= seg3[5] ? 15 : 0;
                  end
                  
-                  if (horizontal_position >= 270 && horizontal_position < 280 && ((vertical_position >= 285) && (vertical_position < 335))) begin
+                  if (horizontal_position >= 260 && horizontal_position < 270 && ((vertical_position >= 255) && (vertical_position < 305))) begin
                         VGA_R <= seg3[4] ? 15 : 0;
                         VGA_G <= seg3[4] ? 15 : 0;
                         VGA_B <= seg3[4] ? 15 : 0;
                   end
 
-                 if (horizontal_position >= 220 && horizontal_position < 270 && ((vertical_position >= 335) && (vertical_position < 345))) begin
+                 if (horizontal_position >= 210 && horizontal_position < 260 && ((vertical_position >= 305) && (vertical_position < 315))) begin
                         VGA_R <= seg3[3] ? 15 : 0;
                         VGA_G <= seg3[3] ? 15 : 0;
                         VGA_B <= seg3[3] ? 15 : 0;
                  end
 
-                 if (horizontal_position >= 210 && horizontal_position < 220 && ((vertical_position >= 285) && (vertical_position < 335))) begin
+                 if (horizontal_position >= 200 && horizontal_position < 210 && ((vertical_position >= 255) && (vertical_position < 305))) begin
                         VGA_R <= seg3[2] ? 15 : 0;
                         VGA_G <= seg3[2] ? 15 : 0;
                         VGA_B <= seg3[2] ? 15 : 0;
                   end
 
-                 if (horizontal_position >= 210 && horizontal_position < 220 && ((vertical_position >= 225) && (vertical_position < 275))) begin
+                 if (horizontal_position >= 200 && horizontal_position < 210 && ((vertical_position >= 195) && (vertical_position < 245))) begin
                         VGA_R <= seg3[1] ? 15 : 0;
                         VGA_G <= seg3[1] ? 15 : 0;
                         VGA_B <= seg3[1] ? 15 : 0;
                  end
 
-                 if (horizontal_position >= 220 && horizontal_position < 270 && ((vertical_position >= 275) && (vertical_position < 285))) begin
+                 if (horizontal_position >= 210 && horizontal_position < 260 && ((vertical_position >= 245) && (vertical_position < 255))) begin
                         VGA_R <= seg3[0] ? 15 : 0;
                         VGA_G <= seg3[0] ? 15 : 0;
                         VGA_B <= seg3[0] ? 15 : 0;
@@ -575,48 +569,48 @@ always @* begin
 
 	// Display a box around the word
        
-  		    if (horizontal_position >= 279 && horizontal_position < 370 && ((vertical_position >= 380) && (vertical_position < 400))) begin
+  		    if (horizontal_position >= 269 && horizontal_position < 360 && ((vertical_position >= 350) && (vertical_position < 370))) begin
 
          		   // Display the box with colors
 	    			    linear_position = horizontal_position + vertical_position;
-                        VGA_R <= (linear_position - 659) * 8'hFF / 321; // Red gradient
-                        VGA_G <= (659 - linear_position) * 8'hFF / 321; // Green gradient
-                        VGA_B <= (321 - (linear_position - 659)) * 8'hFF / 321; // Blue gradient
+                        VGA_R <= (linear_position - 619) * 8'hFF / 281; // Red gradient
+                        VGA_G <= (619 - linear_position) * 8'hFF / 281; // Green gradient
+                        VGA_B <= (281 - (linear_position - 619)) * 8'hFF / 281; // Blue gradient
                         
-                   if ((horizontal_position >= 285 ) && (horizontal_position < 292) && (vertical_position >= 386) && (vertical_position < 394)) begin
-                         VGA_R <= (final_score_pixels_R[vertical_position - 386][horizontal_position - 285]) ? 15 :(linear_position - 659) * 8'hFF / 321; 
-                         VGA_G <= (final_score_pixels_R[vertical_position - 386][horizontal_position - 285]) ? 15 : (659 - linear_position) * 8'hFF / 321;
-                         VGA_B <= (final_score_pixels_R[vertical_position - 386][horizontal_position - 285]) ? 15 :(321 - (linear_position - 659)) * 8'hFF / 321;
+                   if ((horizontal_position >= 275 ) && (horizontal_position < 282) && (vertical_position >= 356) && (vertical_position < 364)) begin
+                         VGA_R <= (final_score_pixels_R[vertical_position - 356][horizontal_position - 275]) ? 15 :(linear_position - 619) * 8'hFF / 281; 
+                         VGA_G <= (final_score_pixels_R[vertical_position - 356][horizontal_position - 275]) ? 15 : (619 - linear_position) * 8'hFF / 281;
+                         VGA_B <= (final_score_pixels_R[vertical_position - 356][horizontal_position - 275]) ? 15 :(281 - (linear_position - 619)) * 8'hFF / 281;
                    end
-                   if ((horizontal_position >= 296 ) && (horizontal_position < 304) && (vertical_position >= 386) && (vertical_position < 394)) begin
-                         VGA_R <= (final_score_pixels_E[vertical_position - 386][horizontal_position - 296]) ? 15 :(linear_position - 659) * 8'hFF / 321; 
-                         VGA_G <= (final_score_pixels_E[vertical_position - 386][horizontal_position - 296]) ? 15 : (659 - linear_position) * 8'hFF / 321;
-                         VGA_B <= (final_score_pixels_E[vertical_position - 386][horizontal_position - 296]) ? 15 :(321 - (linear_position - 659)) * 8'hFF / 321;
+                   if ((horizontal_position >= 286 ) && (horizontal_position < 294) && (vertical_position >= 356) && (vertical_position < 364)) begin
+                         VGA_R <= (final_score_pixels_E[vertical_position - 356][horizontal_position - 286]) ? 15 :(linear_position - 619) * 8'hFF / 281;
+                         VGA_G <= (final_score_pixels_E[vertical_position - 356][horizontal_position - 286]) ? 15 : (619 - linear_position) * 8'hFF / 281;
+                         VGA_B <= (final_score_pixels_E[vertical_position - 356][horizontal_position - 286]) ? 15 :(281 - (linear_position - 619)) * 8'hFF / 281;
        		 	   end
-                   if ((horizontal_position >= 308 ) && (horizontal_position < 316) && (vertical_position >= 386) && (vertical_position < 394)) begin
-                         VGA_R <= (final_score_pixels_S[vertical_position - 386][horizontal_position - 308]) ? 15 :(linear_position - 659) * 8'hFF / 321; 
-                         VGA_G <= (final_score_pixels_S[vertical_position - 386][horizontal_position - 308]) ? 15 :(659 - linear_position) * 8'hFF / 321;
-                         VGA_B <= (final_score_pixels_S[vertical_position - 386][horizontal_position - 308]) ? 15 :(321 - (linear_position - 659)) * 8'hFF / 321;
+                   if ((horizontal_position >= 298 ) && (horizontal_position < 306) && (vertical_position >= 356) && (vertical_position < 364)) begin
+                         VGA_R <= (final_score_pixels_S[vertical_position - 356][horizontal_position - 298]) ? 15 :(linear_position - 619) * 8'hFF / 281;
+                         VGA_G <= (final_score_pixels_S[vertical_position - 356][horizontal_position - 298]) ? 15 :(619 - linear_position) * 8'hFF / 281;
+                         VGA_B <= (final_score_pixels_S[vertical_position - 356][horizontal_position - 298]) ? 15 :(281 - (linear_position - 619)) * 8'hFF / 281;
                    end
-                   if ((horizontal_position >= 320 ) && (horizontal_position < 328) && (vertical_position >= 386) && (vertical_position < 394)) begin
-                         VGA_R <= (restart_pixels_T[vertical_position - 386][horizontal_position - 320]) ? 15 :(linear_position - 659) * 8'hFF / 321; 
-                         VGA_G <= (restart_pixels_T[vertical_position - 386][horizontal_position - 320]) ? 15 :(659 - linear_position) * 8'hFF / 321;
-                         VGA_B <= (restart_pixels_T[vertical_position - 386][horizontal_position - 320]) ? 15 :(321 - (linear_position - 659)) * 8'hFF / 321;
+                   if ((horizontal_position >= 310 ) && (horizontal_position < 318) && (vertical_position >= 356) && (vertical_position < 364)) begin
+                         VGA_R <= (restart_pixels_T[vertical_position - 356][horizontal_position - 310]) ? 15 :(linear_position - 619) * 8'hFF / 281;
+                         VGA_G <= (restart_pixels_T[vertical_position - 356][horizontal_position - 310]) ? 15 :(619 - linear_position) * 8'hFF / 281;
+                         VGA_B <= (restart_pixels_T[vertical_position - 356][horizontal_position - 310]) ? 15 :(281 - (linear_position - 619)) * 8'hFF / 281;
        		       end
-       		 	   if ((horizontal_position >= 332 ) && (horizontal_position < 340) && (vertical_position >= 386) && (vertical_position < 394)) begin
-                         VGA_R <= (final_score_pixels_A[vertical_position - 386][horizontal_position - 332]) ? 15 :(linear_position - 659) * 8'hFF / 321; 
-                         VGA_G <= (final_score_pixels_A[vertical_position - 386][horizontal_position - 332]) ? 15 :(659 - linear_position) * 8'hFF / 321;
-                         VGA_B <= (final_score_pixels_A[vertical_position - 386][horizontal_position - 332]) ? 15 :(321 - (linear_position - 659)) * 8'hFF / 321;
+       		 	   if ((horizontal_position >= 322 ) && (horizontal_position < 330) && (vertical_position >= 356) && (vertical_position < 364)) begin
+                         VGA_R <= (final_score_pixels_A[vertical_position - 356][horizontal_position - 322]) ? 15 :(linear_position - 619) * 8'hFF / 281; 
+                         VGA_G <= (final_score_pixels_A[vertical_position - 356][horizontal_position - 322]) ? 15 :(619 - linear_position) * 8'hFF / 281;
+                         VGA_B <= (final_score_pixels_A[vertical_position - 356][horizontal_position - 322]) ? 15 :(281 - (linear_position - 619)) * 8'hFF / 281;
                    end
-       		 	   if ((horizontal_position >= 344 ) && (horizontal_position < 352) && (vertical_position >= 386) && (vertical_position < 394)) begin
-                         VGA_R <= (final_score_pixels_R[vertical_position - 386][horizontal_position - 344]) ? 15 :(linear_position - 659) * 8'hFF / 321; 
-                         VGA_G <= (final_score_pixels_R[vertical_position - 386][horizontal_position - 344]) ? 15 : (659 - linear_position) * 8'hFF / 321;
-                         VGA_B <= (final_score_pixels_R[vertical_position - 386][horizontal_position - 344]) ? 15 :(321 - (linear_position - 659)) * 8'hFF / 321;
+       		 	   if ((horizontal_position >= 334 ) && (horizontal_position < 342) && (vertical_position >= 356) && (vertical_position < 364)) begin
+                         VGA_R <= (final_score_pixels_R[vertical_position - 356][horizontal_position - 334]) ? 15 :(linear_position - 619) * 8'hFF / 281;
+                         VGA_G <= (final_score_pixels_R[vertical_position - 356][horizontal_position - 334]) ? 15 : (619 - linear_position) * 8'hFF / 281;
+                         VGA_B <= (final_score_pixels_R[vertical_position - 356][horizontal_position - 334]) ? 15 :(281 - (linear_position - 619)) * 8'hFF / 281;
                    end
-                   if ((horizontal_position >= 356 ) && (horizontal_position < 364) && (vertical_position >= 386) && (vertical_position < 394)) begin
-                         VGA_R <= (restart_pixels_T[vertical_position - 386][horizontal_position - 356]) ? 15 :(linear_position - 659) * 8'hFF / 321; 
-                         VGA_G <= (restart_pixels_T[vertical_position - 386][horizontal_position - 356]) ? 15 :(659 - linear_position) * 8'hFF / 321;
-                         VGA_B <= (restart_pixels_T[vertical_position - 386][horizontal_position - 356]) ? 15 :(321 - (linear_position - 659)) * 8'hFF / 321;
+                   if ((horizontal_position >= 346 ) && (horizontal_position < 354) && (vertical_position >= 356) && (vertical_position < 364)) begin
+                         VGA_R <= (restart_pixels_T[vertical_position - 356][horizontal_position - 346]) ? 15 :(linear_position - 619) * 8'hFF / 281;
+                         VGA_G <= (restart_pixels_T[vertical_position - 356][horizontal_position - 346]) ? 15 :(619 - linear_position) * 8'hFF / 281;
+                         VGA_B <= (restart_pixels_T[vertical_position - 356][horizontal_position - 346]) ? 15 :(281 - (linear_position - 619)) * 8'hFF / 281;
        		 	  end
         		end
         		

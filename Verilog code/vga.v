@@ -108,7 +108,7 @@ module vga(
 		if(reset) begin
 			mouse_x_q<=0;
 			mouse_y_q<=0;
-			mouse_color_q<=2;
+			mouse_color_q<=4;
 		end
 		else begin
 			mouse_x_q<=mouse_x_d;
@@ -160,8 +160,8 @@ module vga(
 			     end
 			     end
 			     
-			//if(btn[1]) mouse_color_d=mouse_color_q+1;//right click to change color(increment)
-			//else if(btn[0]) mouse_color_d=mouse_color_q-1;//left click to change color(decrement)
+			if(btn[1]) mouse_color_d=mouse_color_q+1;//right click to change color(increment)
+			else if(btn[0]) mouse_color_d=mouse_color_q-1;//left click to change color(decrement)
 		end
 	 end
 	 

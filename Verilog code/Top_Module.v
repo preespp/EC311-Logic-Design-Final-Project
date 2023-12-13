@@ -103,10 +103,6 @@ module Top_Module(
                 VGA_HS = VGA_HS_start;
                 VGA_VS = VGA_VS_start;
                 btn = btn0;
-                // if (x and y in the range of play button):
-                // start <=1
-                // if (x and y in the range of 1,2,3 button):
-                // case(difficulty)
                 if (start == 1) begin
                     state <= 1;
                 end
@@ -118,8 +114,6 @@ module Top_Module(
                 VGA_HS = VGA_HS_play;
                 VGA_VS = VGA_VS_play;
                 btn = btn1;
-                // if (x and y in the range of each holes button):
-                // case(holes) output tap
                 if (pause == 1) begin
                     state <= 2;
                 end
