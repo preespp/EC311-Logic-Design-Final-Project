@@ -12,7 +12,7 @@ Group Members:
 
 2.Rawisara Chairat Computer Engineering class of 2026
 
-3.Arnav Pratap Chaudhry Computer Science & Computer Engineering class of 2026
+3.Arnav Pratap Chaudhry Computer Science class of 2026
 
 4.Vansh Bhatia Electrical Engineering class of 2025
 
@@ -27,10 +27,11 @@ How to run our code:
 
 How to play the game!
 1. Click on the level you want to play
-2. Click on play button and it will bring you to the play page
-3. You will have 30 seconds to hit the moles that pop up in one of each 8 moles.
-4. Keep in mind that they're randomly generated and they can be generated at the same holes.
-5. You will get 3 points each time you hit the mole but you will not be penalized for each mistake.
+2. Make sure that both debouncer switches (Switch 12 and 13) are turned on and if there are any problems with the mouse cursor just press the reset button once to solve that.
+3. Click on play button and it will bring you to the play page
+4. You will have 30 seconds to hit the moles that pop up in one of each 8 moles.
+5. Keep in mind that they're randomly generated and they can be generated at the same holes.
+6. You will get 3 points each time you hit the mole but you will not be penalized for each mistake.
 
 Overview of the code structure:
 The folder Whac-A-Mole-FPGA is created by nyLiao (https://github.com/nyLiao/Whac-A-Mole-FPGA). There are some modification on the original code for this project as following:
@@ -64,6 +65,12 @@ lettermap2.v : This is a hardcode module for all the segments that make up a let
 of a letter is summed up together (using OR gates) to actually make a letter. In the same way different letters of a word are summed up to make one word. By making different cases for each letter, we passed those cases to out VGA2.v module and later assigned colour those pixels. 
 
 Clock_divider.v : This module is useful to divide or reduce the frequency of the clock by half.
+
+mouse.v - This is the top level mouse module that helps integrate the vga screen with the mouse functionality. This takes in the ps2 data and clock signals and outputs 33 bit data that has been segregated and formatted. Thus, the outputs of this include the button clicks and relative x and y velocity. This module also calls other modules like ps2_rxtx.v which is the module primarily used for data extraction and also files like debounce_explicit.v which are used to implement debouncer switches to makes sure that noise is filtered and only important inputs are registered. 
+
+ps2_rxtx.v - The ps2_rxtx module subsequenlty has two more submodules which are ps2_rx.v and ps2_tx.v.
+
+ps2_rx, ps2_tx, debounce_explicit - Modules mentioned above used in mouse.v and ps2_rxtx.v.
 
 For FPGA Test modules
 1. We display time on 7-segment display; we have to change number of bits of an.
