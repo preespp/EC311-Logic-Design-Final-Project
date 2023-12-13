@@ -32,7 +32,7 @@ output reg value
     );
     
  wire P1,P2,P3,P4,L1,L2,A1,A2,A3,A4,Y1,Y2,Y3,Y4,Y5,L3,L4,E1,E2,E3,E4,V1,V2,V3,V4,V5,E5,E6,E7,E8,L5,L6,one,two1,two2,two3,two4,two5,three1,three2,three3,three4;
- wire W1,W2,W3,W4,H1,H2,H3,A5,A6,A7,A8,C1,C2,C3,dash1,A9,A10,A11,A12,dash2,M1,M2,M3,M4,O1,O2,O3,O4,L7,L8,E9,E10,E11,E12;
+ wire W1,W2,W3,W4,H1,H2,H3,A5,A6,A7,A8,C1,C2,C3,K1,K2,K3,K4,K5,K6,dash1,A9,A10,A11,A12,dash2,M1,M2,M3,M4,O1,O2,O3,O4,L7,L8,E9,E10,E11,E12;
  
  //reg outp, outl, outa, outy;
  //P
@@ -51,15 +51,12 @@ assign A2 = ((x > xstart+(2*lwidth/5)) & (y > ystart) & (x < xstart+(3*lwidth/5)
 assign A3 = ((x > xstart+(lwidth/5)) & (y > ystart) & (x < xstart+(2*lwidth/5)) & (y < ystart+(lwidth/5))) ? 1:0;
 assign A4 = ((x > xstart+(lwidth/5)) & (y > ystart+(2*lheight/5)) & (x < xstart+(2*lwidth/5)) & (y < ystart+(3*lheight/5))) ? 1:0;
 
-
 //Y
 assign Y1 = ((x > xstart) & (y > ystart) & (y < ystart+(lwidth/5)) & (x < xstart+(lheight/5))) ? 1:0;
 assign Y2 = ((x > xstart+(lwidth/5)) & (y > ystart+(lheight/5)) & (x < xstart+(2*lwidth/5)) & (y < ystart+(2*lheight/5))) ? 1:0;
 assign Y3 = ((x > xstart+(2*lheight/5)) & (y > ystart+(2*lheight/5)) & (x < xstart+(3*lwidth/5)) & (y < (ystart+lheight))) ? 1:0;
 assign Y4 = ((x > xstart+(3*lwidth/5)) & (y > ystart+(lheight/5)) & (x < xstart+(4*lwidth/5)) & (y < (ystart+2*lheight/5))) ? 1:0;
 assign Y5 = ((x > xstart+(4*lwidth/5)) & (y > ystart) & (y < ystart+(lheight/5)) & (x < xstart+lwidth)) ? 1:0;
-
-
 
 //L2
  assign L3 = ((x > xstart) & (y > ystart) & (x < xstart+(lwidth/5)) & (y < ystart+lheight)) ? 1:0;
@@ -110,9 +107,9 @@ assign three4 = ((x > xstart) & (y>ystart+(4*lheight/5)) & (x<xstart+(4*lwidth/5
  //W
  assign W1 = ((x > xstart) & (y > ystart) & (x < xstart+lwidth/5) & (y < ystart+lheight)) ? 1:0;
  assign W2 = ((x > xstart+(4*lwidth/5)) & (y > ystart) & (x < xstart+lwidth) & (y < ystart+lheight)) ? 1:0;
-assign W3 = ((x > xstart+lwidth/5) & (y > ystart+(4*lheight/5)) & (x < xstart+(4*lwidth/5)) & (y < ystart+lheight)) ? 1:0;
+ assign W3 = ((x > xstart+lwidth/5) & (y > ystart+(4*lheight/5)) & (x < xstart+(4*lwidth/5)) & (y < ystart+lheight)) ? 1:0;
  assign W4 = ((x > xstart+(2*lwidth/5)) & (y > ystart+(3*lheight/5)) & (x < xstart+(3*lwidth/5)) & (y < ystart+(4*lheight/5))) ? 1:0;
- 
+
  //H
  assign H1 = ((x > xstart) & (y > ystart) & (x < xstart+lwidth/5) & (y < ystart+lheight)) ? 1:0;
  assign H2 = ((x > xstart+(4*lwidth/5)) & (y > ystart) & (x < xstart+lwidth) & (y < ystart+lheight)) ? 1:0;
@@ -126,9 +123,17 @@ assign A8 = ((x > xstart+lwidth/5) & (y > ystart+(2*lheight/5)) & (x < xstart+(4
 
 //C 
 
-assign C1 = ((x > xstart) & (y > ystart) & (x < xstart+lwidth) & (y < ystart+lheight/5)) ? 1:0;
-assign C2 = ((x > xstart) & (y > ystart+(4*lheight/5)) & (x < xstart+lwidth) & (y < ystart+lheight)) ? 1:0;
+assign C1 = ((x > xstart) & (y > ystart) & (x < xstart+lwidth-10) & (y < ystart+lheight/5)) ? 1:0;
+assign C2 = ((x > xstart) & (y > ystart+(4*lheight/5)) & (x < xstart+lwidth-10) & (y < ystart+lheight)) ? 1:0;
 assign C3 = ((x > xstart) & (y > ystart+lheight/5) & (x < xstart+lwidth/5) & (y < ystart+(4*lheight/5))) ? 1:0;
+
+//K
+assign K1 = ((x > xstart) & (y > ystart) & (y < ystart + lheight) & (x < xstart + (lwidth / 5))) ? 1 : 0;
+assign K2 = ((x > xstart + (3 * lwidth / 5)) & (y > ystart) & (x < xstart + (4 * lwidth / 5)) & (y < ystart + (lheight / 2))) ? 1 : 0;
+assign K3 = ((x > xstart + (lwidth / 5)) & (y > ystart + (lheight / 2)) & (x < xstart + (2 * lwidth / 5)) & (y < ystart + (lheight / 2) + 5)) ? 1 : 0;
+assign K4 = ((x > xstart + (2 * lwidth / 5)) & (y > ystart + (2 * lheight / 5)) & (x < xstart + (3 * lwidth / 5)) & (y < ystart + (lheight / 2))) ? 1 : 0;
+assign K5 = ((x > xstart + (2 * lwidth / 5)) & (y > ystart + (3 * lheight / 5)) & (x < xstart + (3 * lwidth / 5)) & (y < ystart + (7 * lheight / 10))) ? 1 : 0;
+assign K6 = ((x > xstart + (3 * lwidth / 5)) & (y > ystart + (3 * lheight / 5)) & (x < xstart + (4 * lwidth / 5)) & (y < ystart + lheight)) ? 1 : 0;
 
 //dash1 
 
@@ -193,15 +198,13 @@ assign dash2 = ((x> xstart+lwidth/5) & (y>ystart+(2*lheight/5)) & (x<xstart+(4*l
  13: value = H1+H2+H3;
  14: value = A5+A6+A7+A8;
  15: value = C1+C2+C3;
- 16: value = dash1;
+ 16: value = K1+K2+K3+K4+K5+K6;
  17: value = A9+A10+A11+A12;
  18: value = dash2;
  19: value = M1+M2+M3+M4;
  20: value = O1+O2+O3+O4;
  21: value = L7+L8;
  22: value = E9+E10+E11+E12;
- 
- 
  
  endcase
  end
