@@ -83,3 +83,6 @@ We connect time_counter, all the vga_display, mouse, music, and game_logic to di
 Testbench files
 For the simulation test, to correct the mistakes of logic.
 
+How to improve:
+We encountered the issue with buzzer; therefore, we can't check if the music module can be played. This is the topic that can be improved in the future once we have a resource for the actual speaker.
+
