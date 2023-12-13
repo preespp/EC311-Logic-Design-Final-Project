@@ -23,6 +23,8 @@
 module vga(
     input in_clk,
     input reset,
+    inout ps2c,ps2d,
+    input key0,key1,
     input [7:0] holes,    // Positions of all 8 holes
     input wire [11:0] score,
     input wire [4:0] time_display,
@@ -30,7 +32,9 @@ module vga(
     output reg [3:0] VGA_G,
     output reg [3:0] VGA_B,
     output reg VGA_HS,
-    output reg VGA_VS
+    output reg VGA_VS,
+    output wire[2:0] btn,
+    output reg [7:0] tap 
     );
    
     Clock_divider CD(in_clk, clock);
@@ -44,6 +48,26 @@ module vga(
     // pixels: 640 cycles, HS high
     // post-blanking: 16 cycles, HS high
     // synchronization: 96 cycles, HS low
+    
+    localparam SIZE=16; //mouse pointer width and height
+	 
+	 
+	 wire[8:0] x,y;
+	 //wire[2:0] btn;
+	 wire m_done_tick;
+	 wire video_on = 1;
+	 wire mouse_on;
+	 wire LOCKED;
+	 wire p_tick;
+	 reg clk_out;
+	 wire new_clk;
+	 wire[11:0] pixel_x,pixel_y;
+	 reg[9:0] mouse_x_q=0,mouse_x_d; //stores x-value(left part) of mouse, 
+	 reg[9:0] mouse_y_q=0,mouse_y_d; //stores y-value(upper part) of mouse, 
+	 reg[2:0] mouse_color_q=0,mouse_color_d; //stores current mouse color and can be changed by right/left click 
+   
+     assign pixel_x = horizontal_position;   
+     assign pixel_y = vertical_position;
    
     initial begin
         vertical_position = 0;
@@ -66,7 +90,92 @@ module vga(
     reg [3:0] holeandmole;                // Index of the hole with the mole
     integer i,j,k;
 
+      mouse m0
+	(
+		.clk(in_clk),
+		.rst_n(~reset),
+		.key0(key0),
+		.key1(key1),
+		.ps2c(ps2c),
+		.ps2d(ps2d),
+		.x(x),
+		.y(y),
+		.btn(btn),
+		.m_done_tick(m_done_tick)
+    );
     
+     always @(posedge in_clk,negedge reset) begin
+		if(reset) begin
+			mouse_x_q<=0;
+			mouse_y_q<=0;
+			mouse_color_q<=2;
+		end
+		else begin
+			mouse_x_q<=mouse_x_d;
+			mouse_y_q<=mouse_y_d;
+			mouse_color_q<=mouse_color_d;
+		end
+	 end
+	 
+	  //logic for updating mouse location(by dragging the mouse) and mouse pointer color(by left/right click)
+	 always @ (*) begin
+		mouse_x_d=mouse_x_q;
+		mouse_y_d=mouse_y_q;
+		mouse_color_d=mouse_color_q;
+		if(m_done_tick) begin
+			mouse_x_d=x[8]? mouse_x_q - 1 -{~{x[7:0]}} : mouse_x_q+x[7:0] ; //new x value of pointer
+			mouse_y_d=y[8]? mouse_y_q + 1 +{~{y[7:0]}} : mouse_y_q-y[7:0] ; //new y value of pointer
+			
+			mouse_x_d=(mouse_x_d>640)? (x[8]? 640:0): mouse_x_d; //wraps around when reaches border
+			mouse_y_d=(mouse_y_d>480)? (y[8]? 0:480): mouse_y_d; //wraps around when reaches border
+			
+			mouse_color_d = 2;
+			if (~btn[0]) begin
+			tap = 0;
+			end
+			if (btn[0]) begin
+			     if (mouse_x_q <= 175 && mouse_x_q >= 100 && mouse_y_q <= 110 && mouse_y_q >= 48) begin
+			         tap[0] = 1;
+			     end
+			     if (mouse_x_q <= 325 && mouse_x_q >= 250 && mouse_y_q <= 110 && mouse_y_q >= 48) begin
+			         tap[1] = 1;
+			     end
+			     if (mouse_x_q <= 475 && mouse_x_q >= 400 && mouse_y_q <= 110 && mouse_y_q >= 48) begin
+			         tap[2] = 1;
+			     end
+			     if (mouse_x_q <= 250 && mouse_x_q >= 175 && mouse_y_q <= 235 && mouse_y_q >= 173) begin
+			         tap[3] = 1;
+			     end
+			     if (mouse_x_q <= 400 && mouse_x_q >= 325 && mouse_y_q <= 235 && mouse_y_q >= 173) begin
+			         tap[4] = 1;
+			     end
+			     if (mouse_x_q <= 175 && mouse_x_q >= 100 && mouse_y_q <= 360 && mouse_y_q >= 298) begin
+			         tap[5] = 1;
+			     end
+			     if (mouse_x_q <= 325 && mouse_x_q >= 250 && mouse_y_q <= 360 && mouse_y_q >= 298) begin
+			         tap[6] = 1;
+			     end
+			     if (mouse_x_q <= 475 && mouse_x_q >= 400 && mouse_y_q <= 360 && mouse_y_q >= 298) begin
+			         tap[7] = 1;
+			     end
+			     end
+			     
+			//if(btn[1]) mouse_color_d=mouse_color_q+1;//right click to change color(increment)
+			//else if(btn[0]) mouse_color_d=mouse_color_q-1;//left click to change color(decrement)
+		end
+	 end
+	 
+	  assign mouse_on = ((mouse_x_q<=pixel_x) && (pixel_x<=mouse_x_q+SIZE) && (mouse_y_q<=pixel_y) && (pixel_y<=mouse_y_q+SIZE));
+	 
+	 always @(posedge in_clk or posedge reset)
+		if(reset)
+		  clk_out <= 0;
+		else
+		  clk_out <= clk_out + 1;
+	
+	assign new_clk = (clk_out == 0) ? 1 : 0; 
+	
+
      always @(posedge in_clk) begin
             if (holes[0] == 1)  begin
                 mole1_x = 100;
@@ -193,14 +302,7 @@ module vga(
     integer mole = 0;  
 
 
-// convert BCD score to binary score
-    
-// change score to 3*score
- //   reg [11:0] realscore;    
-    
-  //  reg [3:0] ones1;
- //   reg [3:0] tens1;
-//    reg [3:0] huns1;
+
     reg [3:0] ones;
     reg [3:0] tens;
     reg [3:0] huns;
@@ -214,18 +316,7 @@ module vga(
     time_tens = (time_display - time_ones)/10;
     end
     
-//       always @(*) begin
- //   ones1 = score[3:0];
-//    tens1 = score[7:4];
-//    huns1 = score[11:8];
-//    realscore = (100*huns + 10*tens + ones) * 3; // we change from 1 point per hit to 3 points per hit
- //   ones = realscore % 10;
- //   tens = ((realscore - ones)/10) % 10;
- //   huns = (realscore - 10*tens - ones)/100 ;
- //   time_ones = time_display%10;
- //   time_tens = (time_display - time_ones)/10;
- //   end
-    
+
   wire [6:0] seg1;
   wire [6:0] seg2; 
   wire [6:0] seg3; 
@@ -275,6 +366,8 @@ module vga(
                     VGA_G = 0;  
                     VGA_B = 0; 
                     mole = 0;
+               
+               
                     
                 // Display the top holes with a white color
                 if ((horizontal_position >= 100) && (horizontal_position < 175) && ((vertical_position >= 100) && (vertical_position < 110))) begin
@@ -640,6 +733,13 @@ module vga(
                     VGA_G <= 0;  
                     VGA_B <= 0;  
                  end 
+                  if(video_on) begin
+			         if(mouse_on) begin //mouse color
+				        VGA_R <={4{mouse_color_q[0]}};
+				        VGA_G <={4{mouse_color_q[1]}};
+				        VGA_B <={4{mouse_color_q[2]}};
+			         end
+	           end
                 end
                 else
                 begin

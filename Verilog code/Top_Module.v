@@ -22,33 +22,31 @@
 
 module Top_Module(
     input wire clk,
-    input start,
-    input [1:0] difficulty,
-    input [7:0] tap,
-   // input wire mouse,
-    // delete this later
-    input next,
+    input wire reset,
+    inout ps2c,ps2d,
+    input key0,key1,
     output reg [3:0] VGA_R,
     output reg [3:0] VGA_G,
     output reg [3:0] VGA_B,
     output reg VGA_HS,
     output reg VGA_VS,
-    output music_play
+    output music_play,
+    output reg [2:0] btn
     );
     
     // register variables
-    
-//    wire start; //put it in input for testing purpose
+
+    wire start;
     wire [9:0] x;
     wire [8:0] y;
     wire click;
+    wire [7:0] tap;
     
-//    reg [1:0] difficulty;  //put it in input for testing purpose
+    wire [1:0] difficulty;
     wire [7:0] holes;
     wire [11:0] score;
     wire [4:0] time_display;
     wire pause;
- //   wire [7:0] tap;      //put it in input for testing purpose
     
     // for vga
     wire [3:0] VGA_R_play;
@@ -67,7 +65,12 @@ module Top_Module(
     wire VGA_HS_final;
     wire VGA_VS_final;
     
-    wire reset = 1;
+    // for inter signal between modules
+    wire restart;
+    wire [2:0] btn0;
+    wire [2:0] btn1;
+    wire [2:0] btn2;
+    
     
     //all modules
     
@@ -75,13 +78,12 @@ module Top_Module(
     
     music music_background(.clk(clk),.sound(music_play));
     
-    vga vga_display(.in_clk(clk),.reset(reset),.holes(holes),.score(score),.time_display(time_display),.VGA_R(VGA_R_play),.VGA_G(VGA_G_play),.VGA_B(VGA_B_play),.VGA_HS(VGA_HS_play),.VGA_VS(VGA_VS_play));
+    vga vga_display(.in_clk(clk),.ps2c(ps2c),.ps2d(ps2d),.key0(key0),.key1(key1),.reset(reset),.holes(holes),.score(score),.time_display(time_display),.VGA_R(VGA_R_play),.VGA_G(VGA_G_play),.VGA_B(VGA_B_play),.VGA_HS(VGA_HS_play),.VGA_VS(VGA_VS_play),.btn(btn1), .tap(tap));
     
-    VGA2 vga_start(.in_clk(clk),.VGA_R(VGA_R_start),.VGA_G(VGA_G_start),.VGA_B(VGA_B_start),.VGA_HS(VGA_HS_start),.VGA_VS(VGA_VS_start));
+    VGA2 vga_start(.in_clk(clk),.reset(reset),.ps2c(ps2c),.ps2d(ps2d),.key0(key0),.key1(key1),.VGA_R(VGA_R_start),.VGA_G(VGA_G_start),.VGA_B(VGA_B_start),.VGA_HS(VGA_HS_start),.VGA_VS(VGA_VS_start),.start(start),.difficulty(difficulty),.btn(btn0));
     
-    vga_last vga_final(.in_clk(clk),.score(score),.VGA_R(VGA_R_final),.VGA_G(VGA_G_final),.VGA_B(VGA_B_final),.VGA_HS(VGA_HS_final),.VGA_VS(VGA_VS_final));    
+    vga_last vga_final(.in_clk(clk),.reset(reset),.ps2c(ps2c),.ps2d(ps2d),.key0(key0),.key1(key1),.score(score),.VGA_R(VGA_R_final),.VGA_G(VGA_G_final),.VGA_B(VGA_B_final),.VGA_HS(VGA_HS_final),.VGA_VS(VGA_VS_final),.btn(btn2),.restart(restart));    
   
-     //mouse mouse_decoder(.mouse(mouse),.x(x),.y(y),.click(click));
   
     game_logic game(.clk(clk),.pause(pause),.tap(tap),.start(start),.difficulty(difficulty),.holes(holes),.score(score));
     
@@ -100,6 +102,7 @@ module Top_Module(
                 VGA_B = VGA_B_start;
                 VGA_HS = VGA_HS_start;
                 VGA_VS = VGA_VS_start;
+                btn = btn0;
                 // if (x and y in the range of play button):
                 // start <=1
                 // if (x and y in the range of 1,2,3 button):
@@ -114,6 +117,7 @@ module Top_Module(
                 VGA_B = VGA_B_play;
                 VGA_HS = VGA_HS_play;
                 VGA_VS = VGA_VS_play;
+                btn = btn1;
                 // if (x and y in the range of each holes button):
                 // case(holes) output tap
                 if (pause == 1) begin
@@ -126,8 +130,9 @@ module Top_Module(
                 VGA_B = VGA_B_final;
                 VGA_HS = VGA_HS_final;
                 VGA_VS = VGA_VS_final;
+                btn = btn2;
                 // fix to restart signal after got mouse
-                if (next == 1) begin
+                if (restart == 1) begin
                 state <= 0;
                 end
             end

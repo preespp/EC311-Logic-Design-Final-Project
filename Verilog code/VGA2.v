@@ -21,12 +21,18 @@
 
 
 module VGA2(
-    input in_clk, 
+    input in_clk,
+    input reset,
+    inout ps2c,ps2d,
+    input key0,key1, 
     output reg [3:0] VGA_R,
     output reg [3:0] VGA_G,
     output reg [3:0] VGA_B,
     output reg VGA_HS,
-    output reg VGA_VS
+    output reg VGA_VS,
+    output reg start,
+    output reg [1:0] difficulty,
+    output wire [2:0] btn
     );
     
     reg [5:0] ID0 = 0;
@@ -62,7 +68,7 @@ module VGA2(
     reg [9:0] xstart3 = 10;
     
     
-    wire outP,outLA,outA,outY,outLB,outEA,outV,outEB,outLC,outone,outtwo,outthree;
+    wire outP,outLA,outAA,outY,outLB,outEA,outV,outEB,outLC,outone,outtwo,outthree;
     wire outW,outH,outAB,outC,outD1,outAC,outD2,outM,outO,outLD,outEC;
     
     Clock_divider CD(in_clk, clock);
@@ -105,15 +111,6 @@ module VGA2(
     lettermap2 E3(.x(x),.y(y),.xstart(xstart3+10*lwidth+60),.ystart(120-(wheight/2)),.ID(ID22),.value(outEC),.lwidth(lwidth),.lheight(lheight));
 
 
-
-
-    
-    
-
-
-
-
-
 //    reg [31:0] count, vertical_count;
 //    reg [31:0] vertical_position, horizontal_position;
     reg [1:0] vertical_state, horizontal_state;
@@ -128,6 +125,26 @@ module VGA2(
 //    assign y = vertical_position;
 //    assign x = horizontal_position;
 
+    
+     localparam SIZE=16; //mouse pointer width and height
+	 
+	 wire[8:0] xm,ym;
+	 //wire[2:0] btn;
+	 wire m_done_tick;
+	 wire video_on = 1;
+	 wire mouse_on;
+	 wire LOCKED;
+	 wire p_tick;
+	 reg clk_out;
+	 wire new_clk;
+	 wire[11:0] pixel_x,pixel_y;
+	 reg[9:0] mouse_x_q=0,mouse_x_d; //stores x-value(left part) of mouse, 
+	 reg[9:0] mouse_y_q=0,mouse_y_d; //stores y-value(upper part) of mouse, 
+	 reg[2:0] mouse_color_q=0,mouse_color_d; //stores current mouse color and can be changed by right/left click 
+   
+     assign pixel_x = horizontal_position;   
+     assign pixel_y = vertical_position;
+    
     
     initial begin
         vertical_position = 0;
@@ -144,6 +161,81 @@ module VGA2(
         vertical_trigger = 0;
         vertical_blank = 1; // one means blank line instead of display data
     end
+    
+    
+          mouse m0
+	(
+		.clk(in_clk),
+		.rst_n(~reset),
+		.key0(key0),
+		.key1(key1),
+		.ps2c(ps2c),
+		.ps2d(ps2d),
+		.x(xm),
+		.y(ym),
+		.btn(btn),
+		.m_done_tick(m_done_tick)
+    );
+    
+     always @(posedge in_clk,negedge reset) begin
+		if(reset) begin
+			mouse_x_q<=0;
+			mouse_y_q<=0;
+			mouse_color_q<=2;
+		end
+		else begin
+			mouse_x_q<=mouse_x_d;
+			mouse_y_q<=mouse_y_d;
+			mouse_color_q<=mouse_color_d;
+		end
+	 end
+	 
+	  //logic for updating mouse location(by dragging the mouse) and mouse pointer color(by left/right click)
+	 always @ (*) begin
+		mouse_x_d=mouse_x_q;
+		mouse_y_d=mouse_y_q;
+		mouse_color_d=mouse_color_q;
+		if(m_done_tick) begin
+			mouse_x_d=xm[8]? mouse_x_q - 1 -{~{xm[7:0]}} : mouse_x_q+xm[7:0] ; //new x value of pointer
+			mouse_y_d=ym[8]? mouse_y_q + 1 +{~{ym[7:0]}} : mouse_y_q-ym[7:0] ; //new y value of pointer
+			
+			mouse_x_d=(mouse_x_d>640)? (xm[8]? 640:0): mouse_x_d; //wraps around when reaches border
+			mouse_y_d=(mouse_y_d>480)? (ym[8]? 0:480): mouse_y_d; //wraps around when reaches border
+			
+			mouse_color_d = 2;
+			if (~btn[0]) begin
+			     start = 0;
+			end
+			if (btn[0]) begin
+			     if (mouse_x_q <= 340 && mouse_x_q >= 210 && mouse_y_q <= 260 && mouse_y_q >= 220) begin
+			         start = 1;
+			     end
+			     if (mouse_x_q <= 266 && mouse_x_q >= 226 && mouse_y_q <= 380 && mouse_y_q >= 340) begin
+			         difficulty = 1;
+			     end
+			     if (mouse_x_q <= 396 && mouse_x_q >= 356 && mouse_y_q <= 380 && mouse_y_q >= 340) begin
+			         difficulty = 2;
+			     end
+			     if (mouse_x_q <= 476 && mouse_x_q >= 436 && mouse_y_q <= 235 && mouse_y_q >= 173) begin
+			         difficulty = 3;
+			     end
+			     end
+			     
+			//if(btn[1]) mouse_color_d=mouse_color_q+1;//right click to change color(increment)
+			//else if(btn[0]) mouse_color_d=mouse_color_q-1;//left click to change color(decrement)
+		end
+	 end
+	 
+	 assign mouse_on = ((mouse_x_q<=pixel_x) && (pixel_x<=mouse_x_q+SIZE) && (mouse_y_q<=pixel_y) && (pixel_y<=mouse_y_q+SIZE));
+	 
+	 always @(posedge in_clk or posedge reset)
+		if(reset)
+		  clk_out <= 0;
+		else
+		  clk_out <= clk_out + 1;
+	
+	assign new_clk = (clk_out == 0) ? 1 : 0; 
+    
     
     /////////// BEGIN HORIZONTAL STATE MACHINE //////////////
     always @(posedge clock)
@@ -194,9 +286,22 @@ module VGA2(
 //                    begin
 //                        VGA_B = 0;
 //                    end
+               //     VGA_R = 0;  
+               //     VGA_G = 0;  
+               //     VGA_B = 0;                 
+
                     VGA_G =((outW)||(outH)||(outAB)||(outC)||(outD1)||(outAC)||(outD2)||(outM)||(outO)||(outLD)||(outEC)) ? 8:0;
                     VGA_B = ((outP)||(outLA)||(outAA)||(outY)) ? 8 : 0;
                     VGA_R = ((outLB)||(outEA)||(outV)||(outEB)||(outLC)||(outone)||(outtwo)||(outthree)) ? 8 : 0;
+                    
+                    //Display mouse
+                    if(video_on) begin
+			         if(mouse_on) begin //mouse color
+				        VGA_R <={4{mouse_color_q[0]}};
+				        VGA_G <={4{mouse_color_q[1]}};
+				        VGA_B <={4{mouse_color_q[2]}};
+			         end
+	               end
                     
                 end
                 else
